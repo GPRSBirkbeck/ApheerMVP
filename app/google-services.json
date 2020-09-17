@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "439923555579",
+    "firebase_url": "https://apheermvp.firebaseio.com",
+    "project_id": "apheermvp",
+    "storage_bucket": "apheermvp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439923555579:android:cd1264340175158447045e",
+        "android_client_info": {
+          "package_name": "com.example.apheermvp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "439923555579-6c6fi6ekiaaci85cvifcel3elnegq1oj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBd6Rg2bILZk4_WmopoTQi1vz7DXhbxws"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "439923555579-6c6fi6ekiaaci85cvifcel3elnegq1oj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
