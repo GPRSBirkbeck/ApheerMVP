@@ -63,7 +63,7 @@
         app:layout_constraintTop_toBottomOf="@+id/password_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="What's your email address"
+        android:hint="Please create your password here"
         android:gravity="center"
         android:id="@+id/password_input"
         app:layout_constraintLeft_toLeftOf="parent"

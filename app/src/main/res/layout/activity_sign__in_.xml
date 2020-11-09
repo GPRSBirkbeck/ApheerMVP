@@ -28,7 +28,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign In to Apheer"
+            android:text="Sign in to Apheer"
             android:id="@+id/sign_in_text"
             android:textSize="24sp"
             android:gravity="center"
@@ -75,7 +75,7 @@
             app:layout_constraintTop_toBottomOf="@+id/sign_in_password_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="What's your email address"
+            android:hint="Please type your password"
             android:gravity="center"
             android:id="@+id/sign_in_password_input"
             app:layout_constraintLeft_toLeftOf="parent"
