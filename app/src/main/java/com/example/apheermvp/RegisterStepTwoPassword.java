@@ -7,51 +7,47 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
-
-public class MainActivity extends AppCompatActivity {
-    public static final String EXTRA_EMAIL = "com.example.apheermvp.EMAIL";
+public class RegisterStepTwoPassword extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     //From built in auth tutorial: build an authenticcaiton object
     private FirebaseAuth mAuth;
 
     //UI references
-    private EditText mEmail, mPassword;
+    private EditText mPassword;
     private Button registerButton, signInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_register_step_two_password);
         //get an instance of that firebase auth object
         mAuth = FirebaseAuth.getInstance();
 
-        mEmail = (EditText) findViewById(R.id.email_input);
         mPassword = (EditText) findViewById(R.id.password_input);
         registerButton = (Button) findViewById(R.id.register_button);
-        signInButton = (Button) findViewById(R.id.sign_in_activity);
+        signInButton = (Button) findViewById(R.id.sign_in_activity_2);
+        Intent intent = getIntent();
+        final String mEmail = intent.getStringExtra(RegisterStepOneEmail.EXTRA_MESSAGE);
 
         //register method for register button
         registerButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                String email = mEmail.getText().toString();
+                //mEmail = "gregory.smith@belgium.com.com";
                 String password = mPassword.getText().toString();
-                if(!email.equals("") && !password.equals("")){
-                    mAuth.createUserWithEmailAndPassword(email,password);
+                if(!mEmail.equals("") && !mPassword.getText().toString().equals("")){
+                    mAuth.createUserWithEmailAndPassword(mEmail,password);
                     goToHomePage();
-
                 }
-                else if (email.equals("")){
+                else if (mEmail.equals("") ||mEmail.equals(null)){
                     toastMessage("you didnt enter your email");
                 }
-                else if(password.equals("")){
+                else if(mPassword.getText().toString().equals("") || mPassword.getText().toString().equals(null)){
                     toastMessage("you didnt enter your password");
                 }
                 else{
@@ -88,9 +84,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void goToHomePage() {
         Intent intent = new Intent(this, HomePage.class);
-        FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
-        String email = currentUser.getEmail();
-        intent.putExtra(Intent.EXTRA_EMAIL, email);
+        //FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         startActivity(intent);
     }
 

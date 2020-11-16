@@ -21,7 +21,6 @@ public class HomePage extends AppCompatActivity {
         setContentView(R.layout.activity_home_page);
         displayUserNameWelcome = findViewById(R.id.home_page_welcome_back_text);
         // Get the Intent that started this activity and extract the string
-        Intent intent = getIntent();
         // Capture the layout's TextView and set the string as its text
     }
 

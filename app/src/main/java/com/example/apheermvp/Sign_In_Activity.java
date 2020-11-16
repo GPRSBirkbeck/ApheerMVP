@@ -7,13 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class Sign_In_Activity extends AppCompatActivity {
     //From built in auth tutorial: build an authenticcaiton object
@@ -83,6 +80,11 @@ public class Sign_In_Activity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         String email = currentUser.getEmail();
         intent.putExtra(Intent.EXTRA_EMAIL, email);
+        startActivity(intent);
+    }
+
+    public void goToRegister(View view){
+        Intent intent = new Intent(this, RegisterStepOneEmail.class);
         startActivity(intent);
     }
 }
