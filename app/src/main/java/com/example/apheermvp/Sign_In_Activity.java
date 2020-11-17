@@ -76,7 +76,7 @@ public class Sign_In_Activity extends AppCompatActivity {
 
     }
     public void goToHomePage() {
-        Intent intent = new Intent(this, HomePage.class);
+        Intent intent = new Intent(this, SetLocationActivity.class);
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         String email = currentUser.getEmail();
         intent.putExtra(Intent.EXTRA_EMAIL, email);
