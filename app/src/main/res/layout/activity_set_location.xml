@@ -27,7 +27,7 @@
             android:layout_weight="8"/>
 
             <EditText
-                android:id="@+id/ImageViewText"
+                android:id="@+id/location_edit_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -42,7 +42,7 @@
             android:layout_height="0dp"
             android:text="Enter Apheer"
             android:layout_weight="1"
-            android:onClick="openLandingPage"
+            android:onClick="setLocationClick"
             android:backgroundTint="@color/colorPrimary"/>
 
     </LinearLayout>

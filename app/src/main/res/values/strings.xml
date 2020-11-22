@@ -2,7 +2,7 @@
     <string name="app_name">ApheerMVP</string>
     <string name="title_activity_set_location">Map</string>
     <string name="title_activity_landing">MainActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_Tribe">Tribe</string>
+    <string name="title_chat">Chat</string>
+    <string name="title_profile">Profile</string>
 </resources>
