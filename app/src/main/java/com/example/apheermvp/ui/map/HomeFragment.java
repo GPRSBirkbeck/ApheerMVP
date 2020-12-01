@@ -1,4 +1,4 @@
-package com.example.apheermvp.ui.home;
+package com.example.apheermvp.ui.map;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,15 +15,17 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.apheermvp.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class HomeFragment extends Fragment implements OnMapReadyCallback {
+public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    private GoogleMap mMap;
+    private SupportMapFragment mapFragment;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -38,19 +40,37 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 textView.setText(s);
             }
         });
-/*        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragment()
+
+/*        MapFragment mapFragment = (MapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);*/
+        //SOlution from: https://code.luasoftware.com/tutorials/android/supportmapfragment-in-fragment/
+        if (mapFragment == null) {
+            mapFragment = SupportMapFragment.newInstance();
+            mapFragment.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap googleMap) {
+                    LatLng london = new LatLng(51.5074, 0.1278);
+                    googleMap.addMarker(new MarkerOptions().position(london)
+                            .title("London"));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(london));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(london, 15));
+                }
+            });
+        }
+
+        // R.id.map is a FrameLayout, not a Fragment
+        getChildFragmentManager().beginTransaction().replace(R.id.mapTribe, mapFragment).commit();
+
         return root;
     }
 
-    @Override
+/*    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
         LatLng london = new LatLng(51.5074, 0.1278);
+        // Add a marker in Sydney and move the camera
         mMap.addMarker(new MarkerOptions().position(london).title("Marker in London"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(london, 15));
-    }
+    }*/
 }
