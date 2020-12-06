@@ -83,7 +83,7 @@ public class RegisterStepTwoPassword extends AppCompatActivity {
         startActivity(intent);
     }
     public void goToHomePage() {
-        Intent intent = new Intent(this, SetLocationActivity.class);
+        Intent intent = new Intent(this, SetLocationAndNameActivity.class);
         //FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         startActivity(intent);
     }

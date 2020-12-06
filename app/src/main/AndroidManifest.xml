@@ -21,10 +21,9 @@
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
         <activity
-            android:name=".SetLocationActivity"
+            android:name=".SetLocationAndNameActivity"
             android:label="@string/title_activity_set_location" />
         <activity android:name=".RegisterStepOneEmail" />
-        <activity android:name=".HomePage" />
         <activity android:name=".Sign_In_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SetLocationActivity">
+    tools:context=".SetLocationAndNameActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,6 +25,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="8"/>
+
+            <EditText
+                android:id="@+id/set_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/location_edit_text"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:visibility="invisible"
+                android:backgroundTint="@color/colorPrimary"
+                android:hint="What is your display name?" />
 
             <EditText
                 android:id="@+id/location_edit_text"

@@ -109,7 +109,7 @@ public class Sign_In_Activity extends AppCompatActivity {
 
     }
     public void goToHomePage(FirebaseUser user) {
-        Intent intent = new Intent(this, SetLocationActivity.class);
+        Intent intent = new Intent(this, SetLocationAndNameActivity.class);
 
         String email = user.getEmail();
         intent.putExtra(Intent.EXTRA_EMAIL, email);
