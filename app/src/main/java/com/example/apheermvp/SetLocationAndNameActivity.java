@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.apheermvp.user_location_classes.CurrentSpot;
-import com.example.apheermvp.user_location_classes.UserLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -141,6 +139,10 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
             @Override
             public Void apply(Transaction transaction) throws FirebaseFirestoreException {
                 DocumentSnapshot snapshotOfCurrentLocation = transaction.get(sfDocRef);
+
+                String previous_location_uid = "previous_location" + uid;
+                final DocumentReference sfDocRef2 = db.collection("Locations").document(previous_location_uid);
+                DocumentSnapshot snapshotOfPreviousLocations = transaction.get(sfDocRef2);
                 //check whether there is an existing current location
                 if(snapshotOfCurrentLocation.getDouble("number_of_locations_counter") != null){
                     //get the number of locations previously visited and increment it
@@ -150,28 +152,43 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
                     String previousLocationString = snapshotOfCurrentLocation.getString("current_location");
                     double previous_time_arrived = snapshotOfCurrentLocation.getDouble("time_arrived");
                     GeoPoint previous_location = (GeoPoint) snapshotOfCurrentLocation.get("coordinates");
+                    if(snapshotOfCurrentLocation.getDouble("number_of_locations_counter") == 0){
+                        Map<String, Object> previousSpotLevelOne = new HashMap<>();
+                        previousSpotLevelOne.put("endDate", currentYear);
+                        previousSpotLevelOne.put("startDate", previous_time_arrived);
+                        previousSpotLevelOne.put("location", previousLocationString);
+                        previousSpotLevelOne.put("geopoint", previous_location);
 
-                    String previous_location_uid = "previous_location" + uid;
-                    final DocumentReference sfDocRef2 = db.collection("Locations").document(previous_location_uid);
-                    DocumentSnapshot snapshotOfPreviousLocations = transaction.get(sfDocRef2);
-                    Map<String, Object> previousSpot = new HashMap<>();
-                    previousSpot.put("endDate", currentYear);
-                    previousSpot.put("startDate", previous_time_arrived);
-                    previousSpot.put("location", previousLocationString);
-                    previousSpot.put("geopoint", previous_location);
-                    //write the map to the previous_location document)
-                    transaction.update(sfDocRef2, String.valueOf(newNumberOfLocations), previousSpot);
+                        Map<String, Object> previousSpotLevelTwo = new HashMap<>();
+                        previousSpotLevelTwo.put(String.valueOf(newNumberOfLocations), previousSpotLevelOne);
 
-                    //now update the current location
-                    transaction.update(sfDocRef, "current_location", location);
-                    transaction.update(sfDocRef, "time_arrived", currentYear);
-                    transaction.update(sfDocRef, "coordinates", current_location);
+                        //write the map to the previous_location document)
+                        transaction.set(sfDocRef2, previousSpotLevelTwo);
+                    }
+                    else{
+                        Map<String, Object> previousSpot = new HashMap<>();
+                        previousSpot.put("endDate", currentYear);
+                        previousSpot.put("startDate", previous_time_arrived);
+                        previousSpot.put("location", previousLocationString);
+                        previousSpot.put("geopoint", previous_location);
+                        //write the map to the previous_location document)
+                        transaction.update(sfDocRef2, String.valueOf(newNumberOfLocations), previousSpot);
+
+                        //now update the current location
+                        transaction.update(sfDocRef, "current_location", location);
+                        transaction.update(sfDocRef, "time_arrived", currentYear);
+                        transaction.update(sfDocRef, "coordinates", current_location);
+                    }
+
                 }
                 else{
-                    transaction.update(sfDocRef, "number_of_locations_counter", 0.00);
-                    transaction.update(sfDocRef, "current_location", location);
-                    transaction.update(sfDocRef, "time_arrived", currentYear);
-                    transaction.update(sfDocRef, "coordinates", current_location);
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("number_of_locations_counter", 0.00);
+                    data.put("current_location", location);
+                    data.put("time_arrived", currentYear);
+                    data.put("coordinates", current_location);
+                    transaction.set(sfDocRef, data);
+
                 }
                 // Success
                 return null;
@@ -189,6 +206,8 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
                         Log.w(TAG, "Transaction failure.", e);
                     }
                 });
+
+        openLandingPage();
     }
 
     public void toastMessage(String toastString){
