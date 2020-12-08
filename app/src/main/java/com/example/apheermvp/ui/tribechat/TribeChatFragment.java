@@ -1,4 +1,4 @@
-package com.example.apheermvp.ui.dashboard;
+package com.example.apheermvp.ui.tribechat;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,21 +18,18 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.apheermvp.R;
 
-import java.util.Calendar;
-import java.util.Locale;
+public class TribeChatFragment extends Fragment {
 
-public class DashboardFragment extends Fragment {
-
-    private DashboardViewModel dashboardViewModel;
+    private TribeChatViewModel tribeChatViewModel;
     EditText friendEmailEditText;
     Button inviteButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        dashboardViewModel =
-                ViewModelProviders.of(this).get(DashboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        tribeChatViewModel =
+                ViewModelProviders.of(this).get(TribeChatViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_tribe_chat, container, false);
         final TextView textView = root.findViewById(R.id.text_dashboard);
         friendEmailEditText = root.findViewById(R.id.edit_text_friend_email);
         inviteButton = root.findViewById(R.id.invite_button);
@@ -55,7 +51,7 @@ public class DashboardFragment extends Fragment {
         });
 
 
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        tribeChatViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

@@ -1,16 +1,16 @@
-package com.example.apheermvp.ui.tribe;
+package com.example.apheermvp.ui.tribechat;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class NotificationsViewModel extends ViewModel {
+public class TribeChatViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public NotificationsViewModel() {
+    public TribeChatViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        mText.setValue("Invite your Friend");
     }
 
     public LiveData<String> getText() {

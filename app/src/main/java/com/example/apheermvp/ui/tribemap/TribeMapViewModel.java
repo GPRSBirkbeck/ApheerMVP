@@ -1,16 +1,16 @@
-package com.example.apheermvp.ui.dashboard;
+package com.example.apheermvp.ui.tribemap;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class DashboardViewModel extends ViewModel {
+public class TribeMapViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public DashboardViewModel() {
+    public TribeMapViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Invite your Friend");
+        mText.setValue("This is home fragment");
     }
 
     public LiveData<String> getText() {

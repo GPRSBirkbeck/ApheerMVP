@@ -1,4 +1,4 @@
-package com.example.apheermvp.ui.tribe;
+package com.example.apheermvp.ui.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import com.example.apheermvp.R;
 import com.example.apheermvp.Sign_In_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class NotificationsFragment extends Fragment {
+public class ProfileFragment extends Fragment {
 
     private NotificationsViewModel notificationsViewModel;
     private Button signOutButton;

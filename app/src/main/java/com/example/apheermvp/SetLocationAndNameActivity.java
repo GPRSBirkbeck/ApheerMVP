@@ -101,11 +101,6 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
             if(mAuth.getCurrentUser().getDisplayName() == null){
                 setUserName();
             }
-            //LocalDate currentdate = LocalDate.now();
-            //double currentYear = currentdate.getYear();
-            //TODO remove CurrentSpot and PreviousLocation and Userlocation classes as not needed
-            //CurrentSpot currentSpot = new CurrentSpot(city, currentYear);
-            //UserLocation userLocation = new UserLocation(currentSpot);
             addDataToDatabase(city);
         }
     }
@@ -126,6 +121,7 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
     public void addDataToDatabase(final String location){
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         final String uid = currentUser.getUid();
+        final String userName = currentUser.getDisplayName();
         LocalDate currentdate = LocalDate.now();
         final double currentYear = currentdate.getYear();
         //TODO find a way of making the current_location work
@@ -187,6 +183,7 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
                     data.put("current_location", location);
                     data.put("time_arrived", currentYear);
                     data.put("coordinates", current_location);
+                    data.put("username", userName);
                     transaction.set(sfDocRef, data);
 
                 }

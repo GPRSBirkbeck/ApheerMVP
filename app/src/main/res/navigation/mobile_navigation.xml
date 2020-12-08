@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.apheermvp.ui.map.HomeFragment"
+        android:name="com.example.apheermvp.ui.tribemap.TribeMapFragment"
         android:label="@string/title_Tribe"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_tribe_map" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.apheermvp.ui.dashboard.DashboardFragment"
+        android:name="com.example.apheermvp.ui.tribechat.TribeChatFragment"
         android:label="@string/title_chat"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_tribe_chat" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.apheermvp.ui.tribe.NotificationsFragment"
+        android:name="com.example.apheermvp.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>
