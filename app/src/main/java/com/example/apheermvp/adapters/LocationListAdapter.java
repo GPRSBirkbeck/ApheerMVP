@@ -45,7 +45,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         return 0;
     }
-    public void setRates(List<FormerLocation> formerLocations){
+    public void setFormerLocations(List<FormerLocation> formerLocations){
         mFormerLocations = formerLocations;
         notifyDataSetChanged();
     }

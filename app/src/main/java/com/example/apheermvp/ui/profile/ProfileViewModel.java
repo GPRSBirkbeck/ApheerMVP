@@ -7,6 +7,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.apheermvp.models.FormerLocation;
+import com.example.apheermvp.models.Friend;
+import com.example.apheermvp.repositories.ApheerRepository;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -23,6 +26,8 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.List;
+
 public class ProfileViewModel extends ViewModel {
     private FirebaseAuth mAuth;
 
@@ -30,6 +35,8 @@ public class ProfileViewModel extends ViewModel {
     private MutableLiveData<String> mUserCurrentLocation;
     private FirebaseFirestore db;
     private static final String TAG = "ProfileViewModel";
+    private ApheerRepository mApheerRepository;
+
 
 
     public ProfileViewModel() {
@@ -75,12 +82,12 @@ public class ProfileViewModel extends ViewModel {
         return mUserText;
     }
 
-    public LiveData<RevolutApiResponse> getFriends(){
-        return mRatesRepository.getFriends();
+    public LiveData<List<Friend>> getFriends(){
+        return mApheerRepository.getFriends();
     }
 
-    public LiveData<RevolutApiResponse> getFormerLocation(){
-        return mRatesRepository.getFormerLocation();
+    public LiveData<List<FormerLocation>> getFormerLocation(){
+        return mApheerRepository.getFormerLocation();
     }
 
 }

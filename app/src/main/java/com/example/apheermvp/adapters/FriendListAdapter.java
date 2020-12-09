@@ -46,7 +46,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
         return 0;
     }
-    public void setRates(List<Friend> friends){
+    public void setFriends(List<Friend> friends){
         mFormerLocations = friends;
         notifyDataSetChanged();
     }

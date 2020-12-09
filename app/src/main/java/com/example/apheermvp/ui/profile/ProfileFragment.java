@@ -1,5 +1,6 @@
 package com.example.apheermvp.ui.profile;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,7 +21,11 @@ import com.example.apheermvp.R;
 import com.example.apheermvp.Sign_In_Activity;
 import com.example.apheermvp.adapters.FriendListAdapter;
 import com.example.apheermvp.adapters.LocationListAdapter;
+import com.example.apheermvp.models.FormerLocation;
+import com.example.apheermvp.models.Friend;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.List;
 
 public class ProfileFragment extends Fragment {
 
@@ -34,12 +39,14 @@ public class ProfileFragment extends Fragment {
 
     //adapters for our ViewModels
     private FriendListAdapter mFriendListAdapter;
-    private LocationListAdapter mLocationListAdapater;
+    private LocationListAdapter locationListAdapter;
+    Context context;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
+        context = container.getContext();
 
         mProfileViewModel =
                 ViewModelProviders.of(this).get(ProfileViewModel.class);
@@ -83,46 +90,39 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        initRecylcerViews();
+        initRecylcerViews(context);
         subscribeObservers();
 
         return root;
     }
     public void subscribeObservers(){
-        mProfileViewModel.getFriends().observe(this, new androidx.lifecycle.Observer<RevolutApiResponse>() {
+        mProfileViewModel.getFriends().observe(getViewLifecycleOwner(), new Observer<List<Friend>>() {
             @Override
-            public void onChanged(RevolutApiResponse revolutApiResponse) {
-                if(revolutApiResponse!=null){
-                    //we are viewing livedata so that the data doesnt change if the user changes state (e.g. screen lock)
-                    //we want the adapter below to be notified if changes are made to our livedata
-                    ModelListCurrencyRate modelListCurrencyRate = new ModelListCurrencyRate(revolutApiResponse);
-                    mFriendListAdapter.setRates(modelListCurrencyRate.getCurrencyRateList());
-                    ModelListCurrencyRate modelListCurrencyRate = new ModelListCurrencyRate(revolutApiResponse);
-                    mLocationListAdapater.setRates(modelListCurrencyRate.getCurrencyRateList());
+            public void onChanged(List<Friend> friends) {
+                if(friends!=null){
+                    mFriendListAdapter.setFriends(friends);
                 }
             }
         });
-        mProfileViewModel.getFormerLocation().observe(this, new androidx.lifecycle.Observer<RevolutApiResponse>() {
+        mProfileViewModel.getFormerLocation().observe(getViewLifecycleOwner(), new Observer<List<FormerLocation>>() {
             @Override
-            public void onChanged(RevolutApiResponse revolutApiResponse) {
-                if(revolutApiResponse!=null){
-                    //we are viewing livedata so that the data doesnt change if the user changes state (e.g. screen lock)
-                    //we want the adapter below to be notified if changes are made to our livedata
-                    ModelListCurrencyRate modelListCurrencyRate = new ModelListCurrencyRate(revolutApiResponse);
-                    mLocationListAdapater.setRates(modelListCurrencyRate.getCurrencyRateList());
-                }
+            public void onChanged(List<FormerLocation> formerLocations) {
+                locationListAdapter.setFormerLocations(formerLocations);
+
             }
         });
     }
 
     //set up recyclerViews
-    private void initRecylcerViews(){
-        mFriendListAdapter = new FriendListAdapter(this);
+    private void initRecylcerViews(Context context){
+        //TODO add "this" into the constructors for new FriendListAdapter
+        // and new LocationListAdapter if you want onclick events
+        mFriendListAdapter = new FriendListAdapter();
         mFriendsRecylcerView.setAdapter(mFriendListAdapter);
-        mFriendsRecylcerView.setLayoutManager(new LinearLayoutManager(this));
-        mLocationListAdapater = new LocationListAdapter(this);
-        mLocationsRecyclerView.setAdapter(mLocationListAdapater);
-        mLocationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mFriendsRecylcerView.setLayoutManager(new LinearLayoutManager(context));
+        locationListAdapter = new LocationListAdapter();
+        mLocationsRecyclerView.setAdapter(locationListAdapter);
+        mLocationsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
     }
 
 }
