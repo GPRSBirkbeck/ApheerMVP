@@ -5,6 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
+    <ScrollView
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
     
     <LinearLayout
         android:layout_width="match_parent"
@@ -129,28 +135,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/london_photo"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textSize="24sp"
-                    android:text="Dublin"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textSize="24sp"
-                    android:text="  2017-2019"/>
-
-            </LinearLayout>
 
 
         </LinearLayout>
@@ -165,6 +149,5 @@
 
         
     </LinearLayout>
-
-
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,7 +34,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((FormerLocationsViewholder)holder).former_location_name.setText(mFormerLocations.get(position).getFormer_city_name());
-        ((FormerLocationsViewholder)holder).former_location_name.setText(mFormerLocations.get(position).getDates_in_former_city());
+        ((FormerLocationsViewholder)holder).Dates_in_former_city.setText(mFormerLocations.get(position).getDates_in_former_city());
         ((FormerLocationsViewholder)holder).city_image.setImageResource(mFormerLocations.get(position).getCityImage());
     }
 

@@ -39,7 +39,7 @@ public class ProfileFragment extends Fragment {
 
     //adapters for our ViewModels
     private FriendListAdapter mFriendListAdapter;
-    private LocationListAdapter locationListAdapter;
+    private LocationListAdapter mLocationListAdapter;
     Context context;
 
 
@@ -107,7 +107,9 @@ public class ProfileFragment extends Fragment {
         mProfileViewModel.getFormerLocation().observe(getViewLifecycleOwner(), new Observer<List<FormerLocation>>() {
             @Override
             public void onChanged(List<FormerLocation> formerLocations) {
-                locationListAdapter.setFormerLocations(formerLocations);
+                if(formerLocations!=null){
+                    mLocationListAdapter.setFormerLocations(formerLocations);
+                }
 
             }
         });
@@ -120,8 +122,9 @@ public class ProfileFragment extends Fragment {
         mFriendListAdapter = new FriendListAdapter();
         mFriendsRecylcerView.setAdapter(mFriendListAdapter);
         mFriendsRecylcerView.setLayoutManager(new LinearLayoutManager(context));
-        locationListAdapter = new LocationListAdapter();
-        mLocationsRecyclerView.setAdapter(locationListAdapter);
+
+        mLocationListAdapter = new LocationListAdapter();
+        mLocationsRecyclerView.setAdapter(mLocationListAdapter);
         mLocationsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
     }
 

@@ -137,8 +137,8 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
                 DocumentSnapshot snapshotOfCurrentLocation = transaction.get(sfDocRef);
 
                 String previous_location_uid = "previous_location" + uid;
-                final DocumentReference sfDocRef2 = db.collection("Locations").document(previous_location_uid);
-                DocumentSnapshot snapshotOfPreviousLocations = transaction.get(sfDocRef2);
+                final CollectionReference sfDocRef2 = db.collection("Locations").document(previous_location_uid).collection("formerLocations");
+                final DocumentReference sfDocRef3 = db.collection("Locations").document(previous_location_uid);
                 //check whether there is an existing current location
                 if(snapshotOfCurrentLocation.getDouble("number_of_locations_counter") != null){
                     //get the number of locations previously visited and increment it
@@ -159,7 +159,7 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
                         previousSpotLevelTwo.put(String.valueOf(newNumberOfLocations), previousSpotLevelOne);
 
                         //write the map to the previous_location document)
-                        transaction.set(sfDocRef2, previousSpotLevelTwo);
+                        transaction.update(sfDocRef3, previousSpotLevelTwo);
                     }
                     else{
                         Map<String, Object> previousSpot = new HashMap<>();
@@ -168,7 +168,10 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
                         previousSpot.put("location", previousLocationString);
                         previousSpot.put("geopoint", previous_location);
                         //write the map to the previous_location document)
-                        transaction.update(sfDocRef2, String.valueOf(newNumberOfLocations), previousSpot);
+                        Map<String, Object> previousSpotLevelTwo = new HashMap<>();
+                        previousSpotLevelTwo.put(String.valueOf(newNumberOfLocations), previousSpot);
+
+                        transaction.update(sfDocRef3, previousSpotLevelTwo);
 
                         //now update the current location
                         transaction.update(sfDocRef, "current_location", location);

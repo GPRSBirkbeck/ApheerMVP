@@ -7,9 +7,9 @@ public class FormerLocation {
     private Integer cityImage;
 
     //constructor
-    public FormerLocation(String rateNameShort, String rateNameLong, Integer cityImage) {
-        this.former_city_name = rateNameShort;
-        this.dates_in_former_city = rateNameLong;
+    public FormerLocation(String former_city_name, String dates_in_former_city, Integer cityImage) {
+        this.former_city_name = former_city_name;
+        this.dates_in_former_city = dates_in_former_city;
         this.cityImage = cityImage;
     }
 

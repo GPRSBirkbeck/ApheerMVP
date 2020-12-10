@@ -8,14 +8,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apheermvp.R;
-import com.example.apheermvp.models.FormerLocation;
 import com.example.apheermvp.models.Friend;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<Friend> mFormerLocations = new ArrayList<>();
+    private List<Friend> mFriends = new ArrayList<>();
     //TODO if we want an onclick for friends, need to create an interface for the below onclick interface
 /*    //private OnLocationListener onLocationListener;
 
@@ -34,20 +33,20 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((FriendsViewholder)holder).friend_name.setText(mFormerLocations.get(position).getFriendName());
-        ((FriendsViewholder)holder).friend_location.setText(mFormerLocations.get(position).getFriend_location());
-        ((FriendsViewholder)holder).friend_image.setImageResource(mFormerLocations.get(position).getFriendImage());
+        ((FriendsViewholder)holder).friend_name.setText(mFriends.get(position).getFriendName() + " ");
+        ((FriendsViewholder)holder).friend_location.setText(mFriends.get(position).getFriend_location());
+        ((FriendsViewholder)holder).friend_image.setImageResource(mFriends.get(position).getFriendImage());
     }
 
     @Override
     public int getItemCount() {
-        if(mFormerLocations != null){
-            return mFormerLocations.size();
+        if(mFriends != null){
+            return mFriends.size();
         }
         return 0;
     }
     public void setFriends(List<Friend> friends){
-        mFormerLocations = friends;
+        mFriends = friends;
         notifyDataSetChanged();
     }
 }

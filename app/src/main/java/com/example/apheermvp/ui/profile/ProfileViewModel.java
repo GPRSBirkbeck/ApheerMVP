@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.apheermvp.R;
 import com.example.apheermvp.models.FormerLocation;
 import com.example.apheermvp.models.Friend;
 import com.example.apheermvp.repositories.ApheerRepository;
@@ -26,6 +27,7 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileViewModel extends ViewModel {
@@ -45,6 +47,7 @@ public class ProfileViewModel extends ViewModel {
         final String userName = currentUser.getDisplayName();
         final String[] userLocation = {currentUser.getDisplayName()};
         final String uid = currentUser.getUid();
+        mApheerRepository = ApheerRepository.getInstance();
 
         //instantiate the DB
         db = FirebaseFirestore.getInstance();
@@ -59,7 +62,7 @@ public class ProfileViewModel extends ViewModel {
                         userLocation[0] = document.getString("current_location");
                         final GeoPoint current_location = document.getGeoPoint("coordinates");
                         double lat = current_location.getLatitude();
-                        double lng = current_location.getLongitude ();
+                        double lng = current_location.getLongitude();
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
