@@ -87,7 +87,30 @@ public class FirebaseClient {
 
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         CollectionReference applicationsRef = rootRef.collection("Locations");
-        DocumentReference applicationIdRef = applicationsRef.document("previous_location" + uid);
+        //DocumentReference applicationIdRef = applicationsRef.document("previous_location" + uid);
+
+        db.collection("Locations")
+                .whereEqualTo("userId", uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<FormerLocation> formerLocationList = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String cityName = document.getString("location");
+                                String dates_in_former_city = document.getDouble("startDate").toString();
+                                Integer friendImage = R.drawable.london_photo;
+                                FormerLocation formerLocation = new FormerLocation(cityName,dates_in_former_city,friendImage);
+                                formerLocationList.add(formerLocation);
+                            }
+                            mFormerLocations.postValue(formerLocationList);
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
 
 /*        applicationIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -101,8 +124,8 @@ public class FirebaseClient {
                 }
 
         });*/
-
-/*        db.collection("Locations")
+/*
+        db.collection("Locations")
                 .whereEqualTo(FieldPath.documentId(),"previous_location" + uid)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -124,7 +147,7 @@ public class FirebaseClient {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
-                });*/
+                });
         List<FormerLocation> mFormerLocationList = new ArrayList<>();
         ArrayList<FormerLocation> mFormerLocation = new ArrayList<>();
         int drawable_source =R.drawable.london_photo;
@@ -138,6 +161,7 @@ public class FirebaseClient {
         mFormerLocation.add(formerLocation3);
         mFormerLocation.add(formerLocation3);
         mFormerLocations.postValue(mFormerLocation);
+        return mFormerLocations;*/
         return mFormerLocations;
     }
 

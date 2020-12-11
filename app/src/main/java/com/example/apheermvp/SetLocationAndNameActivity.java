@@ -30,7 +30,9 @@ import com.google.firebase.firestore.Transaction;
 import com.google.firebase.firestore.auth.User;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SetLocationAndNameActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -136,30 +138,36 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
             public Void apply(Transaction transaction) throws FirebaseFirestoreException {
                 DocumentSnapshot snapshotOfCurrentLocation = transaction.get(sfDocRef);
 
-                String previous_location_uid = "previous_location" + uid;
-                final CollectionReference sfDocRef2 = db.collection("Locations").document(previous_location_uid).collection("formerLocations");
-                final DocumentReference sfDocRef3 = db.collection("Locations").document(previous_location_uid);
                 //check whether there is an existing current location
                 if(snapshotOfCurrentLocation.getDouble("number_of_locations_counter") != null){
                     //get the number of locations previously visited and increment it
                     //get all the other values in current location so we can add them to a map and put that in previous locations.
                     double newNumberOfLocations = snapshotOfCurrentLocation.getDouble("number_of_locations_counter") + 1;
+
                     transaction.update(sfDocRef, "number_of_locations_counter", newNumberOfLocations);
                     String previousLocationString = snapshotOfCurrentLocation.getString("current_location");
                     double previous_time_arrived = snapshotOfCurrentLocation.getDouble("time_arrived");
                     GeoPoint previous_location = (GeoPoint) snapshotOfCurrentLocation.get("coordinates");
                     if(snapshotOfCurrentLocation.getDouble("number_of_locations_counter") == 0){
+                        String previous_location_uid = "previous_location"  + uid + newNumberOfLocations;
+                        final DocumentReference sfDocRef3 = db.collection("Locations").document(previous_location_uid);
                         Map<String, Object> previousSpotLevelOne = new HashMap<>();
                         previousSpotLevelOne.put("endDate", currentYear);
                         previousSpotLevelOne.put("startDate", previous_time_arrived);
                         previousSpotLevelOne.put("location", previousLocationString);
                         previousSpotLevelOne.put("geopoint", previous_location);
+                        previousSpotLevelOne.put("userId", uid);
 
                         Map<String, Object> previousSpotLevelTwo = new HashMap<>();
-                        previousSpotLevelTwo.put(String.valueOf(newNumberOfLocations), previousSpotLevelOne);
+                        Log.d(TAG, "apply: previousSpotLevelOne.hashCode()");
+                        //previousSpotLevelTwo = (Map<String, Object>) db.collection("Locations").document(previous_location_uid);
+                        //previousSpotLevelTwo.put(String.valueOf(newNumberOfLocations), previousSpotLevelOne);
+                        //final CollectionReference sfDocRef5 = db.collection("Locations").document(previous_location_uid).collection(String.valueOf(newNumberOfLocations));
+/*
 
                         //write the map to the previous_location document)
-                        transaction.update(sfDocRef3, previousSpotLevelTwo);
+                        transaction.set(sfDocRef5, previousSpotLevelTwo);*/
+                        transaction.set(sfDocRef3, previousSpotLevelOne);
                     }
                     else{
                         Map<String, Object> previousSpot = new HashMap<>();
@@ -167,11 +175,34 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
                         previousSpot.put("startDate", previous_time_arrived);
                         previousSpot.put("location", previousLocationString);
                         previousSpot.put("geopoint", previous_location);
+                        previousSpot.put("userId", uid);
                         //write the map to the previous_location document)
+
+/*                        List<Map<String,Object>> maps = new ArrayList<Map<String,Object>>();
+                        maps.add(previousSpot);
+                        Map<String, HashMap<String, Object>> previousSpotLevelTwo = new HashMap<>();
+                        previousSpotLevelTwo = (Map<String, HashMap<String, Object>>) db.collection("Locations").document(previous_location_uid);
+                        previousSpotLevelTwo.put(String.valueOf(newNumberOfLocations), (HashMap<String, Object>) previousSpot);
+
+                        transaction.update(sfDocRef3, (Map<String, Object>) maps);*/
                         Map<String, Object> previousSpotLevelTwo = new HashMap<>();
+                        Log.d(TAG, "apply: previousSpotLevelOne.hashCode()");
+                        //previousSpotLevelTwo = (Map<String, Object>) db.collection("Locations").document(previous_location_uid);
                         previousSpotLevelTwo.put(String.valueOf(newNumberOfLocations), previousSpot);
 
-                        transaction.update(sfDocRef3, previousSpotLevelTwo);
+                        //final CollectionReference sfDocRef5 = db.collection("Locations").document(previous_location_uid).collection(String.valueOf(newNumberOfLocations));
+/*
+
+                        //write the map to the previous_location document)
+                        transaction.set(sfDocRef5, previousSpotLevelTwo);*/
+                        //sfDocRef5.add(previousSpot);
+                        String previous_location_uid = "previous_location"  + uid+ newNumberOfLocations;
+                        final DocumentReference sfDocRef3 = db.collection("Locations").document(previous_location_uid);
+                        transaction.set(sfDocRef3, previousSpot);
+
+
+/*                        //write the map to the previous_location document)
+                        transaction.update(sfDocRef3, previousSpotLevelTwo);*/
 
                         //now update the current location
                         transaction.update(sfDocRef, "current_location", location);
