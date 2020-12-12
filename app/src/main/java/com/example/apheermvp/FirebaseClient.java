@@ -110,58 +110,6 @@ public class FirebaseClient {
                         }
                     }
                 });
-
-
-/*        applicationIdRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        List<FormerLocation> FormerLocation = document.toObject(FormerLocationsList.class).FormerLocation;
-                        //Use the the list
-                        mFormerLocations.postValue(FormerLocation);
-                    }
-                }
-
-        });*/
-/*
-        db.collection("Locations")
-                .whereEqualTo(FieldPath.documentId(),"previous_location" + uid)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<FormerLocation> mFormerLocationList = new ArrayList<>();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String location = document.getString("location");
-                                String startDate = document.getString("startDate");
-                                Integer cityImage = R.drawable.london_photo;
-                                FormerLocation formerLocation = new FormerLocation(location,startDate,cityImage);
-                                mFormerLocationList.add(formerLocation);
-                            }
-                            FormerLocation formerLocation = new FormerLocation("Brussels","2020",R.drawable.london_photo);
-                            mFormerLocationList.add(formerLocation);
-                            mFormerLocations.postValue(mFormerLocationList);
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-        List<FormerLocation> mFormerLocationList = new ArrayList<>();
-        ArrayList<FormerLocation> mFormerLocation = new ArrayList<>();
-        int drawable_source =R.drawable.london_photo;
-        FormerLocation formerLocation = new FormerLocation("Brussels","2020", drawable_source);
-        FormerLocation formerLocation2 = new FormerLocation("Germany","2020", drawable_source);
-        FormerLocation formerLocation3 = new FormerLocation("Italy","2020", drawable_source);
-        mFormerLocation.add(formerLocation);
-        mFormerLocation.add(formerLocation2);
-        mFormerLocation.add(formerLocation3);
-        mFormerLocation.add(formerLocation3);
-        mFormerLocation.add(formerLocation3);
-        mFormerLocation.add(formerLocation3);
-        mFormerLocations.postValue(mFormerLocation);
-        return mFormerLocations;*/
         return mFormerLocations;
     }
 
