@@ -1,6 +1,5 @@
 package com.example.apheermvp;
 
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -8,27 +7,17 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.apheermvp.models.FormerLocation;
-import com.example.apheermvp.models.FormerLocationsList;
 import com.example.apheermvp.models.Friend;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ForkJoinPool;
 
 public class FirebaseClient {
     private static final String TAG = "FireBaseClient";
@@ -53,8 +42,6 @@ public class FirebaseClient {
 
     }
     public LiveData<List<Friend>> getFriends(){
-        final FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
-        final String uid = currentUser.getUid();
 
         db.collection("Locations")
                 .whereGreaterThan("number_of_locations_counter",-1)
@@ -84,10 +71,6 @@ public class FirebaseClient {
     public LiveData<List<FormerLocation>> getFormerLocation(){
         final FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         final String uid = currentUser.getUid();
-
-        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-        CollectionReference applicationsRef = rootRef.collection("Locations");
-        //DocumentReference applicationIdRef = applicationsRef.document("previous_location" + uid);
 
         db.collection("Locations")
                 .whereEqualTo("userId", uid)

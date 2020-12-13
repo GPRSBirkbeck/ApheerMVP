@@ -60,9 +60,6 @@ public class ProfileViewModel extends ViewModel {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         userLocation[0] = document.getString("current_location");
-                        final GeoPoint current_location = document.getGeoPoint("coordinates");
-                        double lat = current_location.getLatitude();
-                        double lng = current_location.getLongitude();
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());

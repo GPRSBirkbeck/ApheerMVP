@@ -34,7 +34,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((FriendsViewholder)holder).friend_name.setText(mFriends.get(position).getFriendName() + " ");
-        ((FriendsViewholder)holder).friend_location.setText(mFriends.get(position).getFriend_location());
+        ((FriendsViewholder)holder).friend_location.setText("in " + mFriends.get(position).getFriend_location());
         ((FriendsViewholder)holder).friend_image.setImageResource(mFriends.get(position).getFriendImage());
     }
 

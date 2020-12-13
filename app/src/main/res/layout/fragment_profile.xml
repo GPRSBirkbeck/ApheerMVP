@@ -56,94 +56,35 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/nearest_friend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="24sp"
             android:paddingTop="24dp"
             android:text="Nearest Friends"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/dummy_friends">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/macron_image"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textSize="24sp"
-                    android:text="Macron"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textSize="24sp"
-                    android:text="  In London"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/friends_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/dummy_friends">
+            app:layout_constraintTop_toBottomOf="@id/nearest_friend">
 
         </androidx.recyclerview.widget.RecyclerView>
 
         <TextView
+            android:id="@+id/you_have_apheered_in"
             android:paddingTop="24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="You have Apheered in"
             android:textSize="24sp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/dummy_locations">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/london_photo"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textSize="24sp"
-                    android:text="London"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textSize="24sp"
-                    android:text="  2019 - Present"/>
-
-            </LinearLayout>
-
-
-
-        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/locations_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/dummy_locations">
+            app:layout_constraintTop_toBottomOf="@id/you_have_apheered_in">
 
         </androidx.recyclerview.widget.RecyclerView>
 

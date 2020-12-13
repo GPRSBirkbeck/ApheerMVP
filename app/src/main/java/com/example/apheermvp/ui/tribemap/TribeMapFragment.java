@@ -1,5 +1,10 @@
 package com.example.apheermvp.ui.tribemap;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,8 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -18,6 +25,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -103,9 +112,17 @@ public class TribeMapFragment extends Fragment {
                             mapFragment.getMapAsync(new OnMapReadyCallback() {
                                 @Override
                                 public void onMapReady(final GoogleMap googleMap) {
+                                    //BitmapDescriptor icon = getMarkerIconFromDrawable(R.drawable.jackie_chan);
+                                    //BitmapDescriptor icon = bitmapDescriptorFromVector(getContext(), R.drawable.jackie_chan);
+
+                                    Bitmap icon = BitmapFactory.decodeResource(getResources(),
+                                            R.drawable.jackie_chan);
+                                    BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(icon);
                                     if(latLng!=null){
                                         googleMap.addMarker(new MarkerOptions().position(latLng)
-                                                .title(userName));
+                                                .title(userName)
+                                                .icon(bitmapDescriptor));
+
                                         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                                     }
@@ -124,13 +141,20 @@ public class TribeMapFragment extends Fragment {
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                     if (task.isSuccessful()) {
                                                         for (QueryDocumentSnapshot document : task.getResult()) {
+                                                            //BitmapDescriptor icon = getMarkerIconFromDrawable( R.drawable.jackie_chan);
+                                                            Drawable drawable = getResources().getDrawable(R.drawable.jackie_chan);
+                                                            Bitmap icon = BitmapFactory.decodeResource(getResources(),
+                                                                    R.drawable.jackie_chan);
+                                                            BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(icon);
+
                                                             Log.d(TAG, document.getId() + " => " + document.getData());
                                                             final GeoPoint current_location = document.getGeoPoint("coordinates");
                                                             double lat = current_location.getLatitude();
                                                             double lng = current_location.getLongitude ();
                                                             latLng = new LatLng(lat, lng);
                                                             googleMap.addMarker(new MarkerOptions().position(latLng)
-                                                                    .title(document.getString("userName")));
+                                                                    .title(document.getString("userName"))
+                                                                    .icon(bitmapDescriptor));
                                                         }
                                                     } else {
                                                         Log.d(TAG, "Error getting documents: ", task.getException());
@@ -149,4 +173,26 @@ public class TribeMapFragment extends Fragment {
 
         return root;
     }
+
+/*    private BitmapDescriptor getMarkerIconFromDrawable(int drawableInt) {
+        Drawable drawable = getResources().getDrawable(drawableInt);
+        Canvas canvas = new Canvas();
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        canvas.setBitmap(bitmap);
+        drawable.setBounds(0, 0, 24, 24);
+        drawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
+        Drawable background = ContextCompat.getDrawable(context, R.drawable.map_marker);
+        background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth() + 0, vectorDrawable.getIntrinsicHeight() + 0);
+        Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        background.draw(canvas);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }*/
 }
