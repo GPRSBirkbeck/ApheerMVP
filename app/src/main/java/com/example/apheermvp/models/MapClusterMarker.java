@@ -14,6 +14,13 @@ public class MapClusterMarker implements ClusterItem {
     private int iconPicture;
     private User user;
 
+    public MapClusterMarker(LatLng position, String title, String snippet, int iconPicture) {
+        this.position = position;
+        this.title = title;
+        this.snippet = snippet;
+        this.iconPicture = iconPicture;
+    }
+
     public int getIconPicture() {
         return iconPicture;
     }
