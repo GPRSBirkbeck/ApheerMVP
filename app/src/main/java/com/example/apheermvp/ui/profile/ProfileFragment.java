@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.apheermvp.R;
 import com.example.apheermvp.Sign_In_Activity;
 import com.example.apheermvp.adapters.FriendListAdapter;
@@ -127,6 +130,7 @@ public class ProfileFragment extends Fragment {
 
         initRecylcerViews(context);
         subscribeObservers();
+        getProfilePicture(root);
 
         return root;
     }
@@ -207,18 +211,39 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-/*
-    public void getProfilePicture() throws IOException {
-        StorageReference profilePictures = mStorageReference.child("profilepictures/" + mProfileViewModel.getUid());
 
-        File localFile = File.createTempFile("images", "jpg");
+    public void getProfilePicture(View root){
+        StorageReference profilePictures = mStorageReference.child("profilepictures/" + mProfileViewModel.getUid());
+        // Reference to an image file in Cloud Storage
+        //StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        //StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+       // StorageReference profilePictures = storageReference.child("profilepictures/" + mProfileViewModel.getUid());
+        // ImageView in your Activity
+        ImageView imageView = root.findViewById(R.id.profile_picture);
+
+        RequestOptions requestOptions = new RequestOptions()
+                //TODO replace the placeholder image with a feedme logo.
+                .placeholder(R.drawable.ic_launcher_background);
+
+
+        // Download directly from StorageReference using Glide
+        // (See MyAppGlideModule for Loader registration)
+        Glide.with(this /* context */)
+                .setDefaultRequestOptions(requestOptions)
+                .load(profilePictures)
+                .into(mProfile_picture);
+
+
+
+
+/*        final File localFile = File.createTempFile("images", "jpg");
         profilePictures.getFile(localFile)
                 .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                         // Successfully downloaded data to local file
                         // ...
-                        imageUri = taskSnapshot.getData();
+                        imageUri = localFile;
                         mProfile_picture.setImageURI(imageUri);
                         Toast.makeText(context, "Profile pic downloaded", Toast.LENGTH_LONG).show();
 
@@ -231,9 +256,9 @@ public class ProfileFragment extends Fragment {
                 // Handle failed download
                 // ...
             }
-        });
+        });*/
     }
-*/
+
 
     //set up recyclerViews
     private void initRecylcerViews(Context context){
