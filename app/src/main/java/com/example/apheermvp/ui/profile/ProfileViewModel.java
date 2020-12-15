@@ -38,6 +38,7 @@ public class ProfileViewModel extends ViewModel {
     private FirebaseFirestore db;
     private static final String TAG = "ProfileViewModel";
     private ApheerRepository mApheerRepository;
+    private String uid;
 
 
 
@@ -46,7 +47,7 @@ public class ProfileViewModel extends ViewModel {
         final FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         final String userName = currentUser.getDisplayName();
         final String[] userLocation = {currentUser.getDisplayName()};
-        final String uid = currentUser.getUid();
+        uid = currentUser.getUid();
         mApheerRepository = ApheerRepository.getInstance();
 
         //instantiate the DB
@@ -90,4 +91,7 @@ public class ProfileViewModel extends ViewModel {
         return mApheerRepository.getFormerLocation();
     }
 
+    public String getUid() {
+        return uid;
+    }
 }
