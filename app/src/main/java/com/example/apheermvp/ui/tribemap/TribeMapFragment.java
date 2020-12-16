@@ -42,6 +42,8 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
@@ -151,6 +153,11 @@ public class TribeMapFragment extends Fragment {
                                                     for (final QueryDocumentSnapshot document : task.getResult()) {
                                                         final FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
                                                         final String uid = currentUser.getUid();
+
+                                                        //TODO change this to relate to the user's own picture
+                                                        StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
+                                                        StorageReference profilePictures = mStorageReference.child("profilepictures/" + uid);
+
                                                         final String userName = currentUser.getDisplayName();
                                                         String snippet = "This is your friend " + document.getString("userName") + " in " + document.getString("current_location");
                                                         int personImage = R.drawable.jackie_chan; //default person logo
@@ -174,6 +181,15 @@ public class TribeMapFragment extends Fragment {
                                                                 personImage
 
                                                         );
+
+                                                        MapClusterMarker mapClusterMarker2 = new MapClusterMarker(
+                                                                new LatLng(lat, lng),
+                                                                document.getString("userName"),
+                                                                snippet,
+                                                                profilePictures
+
+                                                        );
+
                                                         mClusterManager.addItem(mapClusterMarker);
                                                         mapClusterMarkerArrayList.add(mapClusterMarker);
                                                         Log.d(TAG, document.getId() + " => " + document.getData());

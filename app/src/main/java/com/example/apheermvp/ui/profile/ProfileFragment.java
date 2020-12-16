@@ -225,38 +225,12 @@ public class ProfileFragment extends Fragment {
                 //TODO replace the placeholder image with a feedme logo.
                 .placeholder(R.drawable.ic_launcher_background);
 
-
         // Download directly from StorageReference using Glide
         // (See MyAppGlideModule for Loader registration)
         Glide.with(this /* context */)
                 .setDefaultRequestOptions(requestOptions)
                 .load(profilePictures)
                 .into(mProfile_picture);
-
-
-
-
-/*        final File localFile = File.createTempFile("images", "jpg");
-        profilePictures.getFile(localFile)
-                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        // Successfully downloaded data to local file
-                        // ...
-                        imageUri = localFile;
-                        mProfile_picture.setImageURI(imageUri);
-                        Toast.makeText(context, "Profile pic downloaded", Toast.LENGTH_LONG).show();
-
-
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle failed download
-                // ...
-            }
-        });*/
     }
 
 

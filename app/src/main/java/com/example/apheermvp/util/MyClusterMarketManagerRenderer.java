@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.example.apheermvp.R;
 import com.example.apheermvp.models.MapClusterMarker;
 import com.google.android.gms.maps.GoogleMap;
@@ -42,7 +43,11 @@ public class MyClusterMarketManagerRenderer extends DefaultClusterRenderer<MapCl
 
     @Override
     protected void onBeforeClusterItemRendered(@NonNull MapClusterMarker item, @NonNull MarkerOptions markerOptions) {
-        imageView.setImageResource(item.getIconPicture());
+/*        Glide.with(context *//* context *//*)
+                .setDefaultRequestOptions(requestOptions)
+                .load(profilePictures)
+                .into(imageView);*/
+        //imageView.setImageResource(item.getIconPicture());
         Bitmap icon = iconGenerator.makeIcon();
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title(item.getTitle());
     }

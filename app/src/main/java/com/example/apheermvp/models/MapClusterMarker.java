@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.firestore.auth.User;
+import com.google.firebase.storage.StorageReference;
 import com.google.maps.android.clustering.ClusterItem;
 
 public class MapClusterMarker implements ClusterItem {
@@ -13,12 +14,20 @@ public class MapClusterMarker implements ClusterItem {
     private String snippet;
     private int iconPicture;
     private User user;
+    private StorageReference profilePictures;
 
     public MapClusterMarker(LatLng position, String title, String snippet, int iconPicture) {
         this.position = position;
         this.title = title;
         this.snippet = snippet;
         this.iconPicture = iconPicture;
+    }
+
+    public MapClusterMarker(LatLng position, String title, String snippet, StorageReference profilePictures) {
+        this.position = position;
+        this.title = title;
+        this.snippet = snippet;
+        this.profilePictures = profilePictures;
     }
 
     public int getIconPicture() {
