@@ -8,11 +8,16 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.apheermvp.R;
 import com.example.apheermvp.models.MapClusterMarker;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
@@ -23,6 +28,10 @@ public class MyClusterMarketManagerRenderer extends DefaultClusterRenderer<MapCl
     private final ImageView imageView;
     private final int markerWidth;
     private final int markerHeight;
+    private Context mContext;
+
+    private FirebaseAuth mAuth;
+
 
     public MyClusterMarketManagerRenderer(Context context, GoogleMap map,
                                           ClusterManager<MapClusterMarker> clusterManager
@@ -39,14 +48,20 @@ public class MyClusterMarketManagerRenderer extends DefaultClusterRenderer<MapCl
         int padding = (int) context.getResources().getDimension(R.dimen.custom_marker_padding);
         imageView.setPadding(padding,padding,padding,padding);
         iconGenerator.setContentView(imageView);
+        mContext = context;
     }
 
     @Override
     protected void onBeforeClusterItemRendered(@NonNull MapClusterMarker item, @NonNull MarkerOptions markerOptions) {
-/*        Glide.with(context *//* context *//*)
+
+        RequestOptions requestOptions = new RequestOptions()
+                //TODO replace the placeholder image with a feedme logo.
+                .placeholder(R.drawable.ic_launcher_background);
+        //TODO make this run smoother as currently you need to tab in and out of activity for it to work
+        Glide.with(mContext /* context */)
                 .setDefaultRequestOptions(requestOptions)
-                .load(profilePictures)
-                .into(imageView);*/
+                .load(item.getProfilePictures())
+                .into(imageView);
         //imageView.setImageResource(item.getIconPicture());
         Bitmap icon = iconGenerator.makeIcon();
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title(item.getTitle());

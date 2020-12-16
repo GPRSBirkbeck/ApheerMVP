@@ -55,4 +55,8 @@ public class MapClusterMarker implements ClusterItem {
     public String getSnippet() {
         return snippet;
     }
+
+    public StorageReference getProfilePictures() {
+        return profilePictures;
+    }
 }

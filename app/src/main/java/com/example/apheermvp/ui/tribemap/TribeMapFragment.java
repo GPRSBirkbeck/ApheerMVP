@@ -91,7 +91,7 @@ public class TribeMapFragment extends Fragment {
             mapFragment.getMapAsync(new OnMapReadyCallback() {
                 @Override
                 public void onMapReady(GoogleMap googleMap) {
-                    addMapMarkers(googleMap);
+                    addMapMarkers();
                     if(latLng!=null){
                         googleMap.addMarker(new MarkerOptions().position(latLng)
                                 .title(userName));
@@ -106,9 +106,13 @@ public class TribeMapFragment extends Fragment {
         return root;
     }
 
-    private void addMapMarkers(GoogleMap mGoogleMap){
+    private void addMapMarkers(){
         final FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         final String uid = currentUser.getUid();
+
+        //TODO change this to relate to the user's own picture
+        StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
+        final StorageReference profilePictures = mStorageReference.child("profilepictures/" + uid);
 
         //first get location for current user
         DocumentReference docRef = db.collection("Locations").document(uid);
@@ -143,6 +147,7 @@ public class TribeMapFragment extends Fragment {
                                     mClusterManager.setRenderer(mClusterMarketManagerRenderer);
                                 }
 
+
                                 db.collection("Locations")
                                         .whereGreaterThan("number_of_locations_counter", -1)
                                         .get()
@@ -151,12 +156,7 @@ public class TribeMapFragment extends Fragment {
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                 if (task.isSuccessful()) {
                                                     for (final QueryDocumentSnapshot document : task.getResult()) {
-                                                        final FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
-                                                        final String uid = currentUser.getUid();
-
-                                                        //TODO change this to relate to the user's own picture
-                                                        StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
-                                                        StorageReference profilePictures = mStorageReference.child("profilepictures/" + uid);
+;
 
                                                         final String userName = currentUser.getDisplayName();
                                                         String snippet = "This is your friend " + document.getString("userName") + " in " + document.getString("current_location");
@@ -190,8 +190,8 @@ public class TribeMapFragment extends Fragment {
 
                                                         );
 
-                                                        mClusterManager.addItem(mapClusterMarker);
-                                                        mapClusterMarkerArrayList.add(mapClusterMarker);
+                                                        mClusterManager.addItem(mapClusterMarker2);
+                                                        mapClusterMarkerArrayList.add(mapClusterMarker2);
                                                         Log.d(TAG, document.getId() + " => " + document.getData());
                                                         final GeoPoint current_location2 = document.getGeoPoint("coordinates");
                                                         double lat2 = current_location2.getLatitude();
