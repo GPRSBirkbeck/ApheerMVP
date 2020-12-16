@@ -208,7 +208,6 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
                         transaction.update(sfDocRef, "current_location", location);
                         transaction.update(sfDocRef, "time_arrived", currentYear);
                         transaction.update(sfDocRef, "coordinates", current_location);
-                        transaction.update(sfDocRef, "userId", uid);
                     }
 
                 }
@@ -219,6 +218,7 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
                     data.put("time_arrived", currentYear);
                     data.put("coordinates", current_location);
                     data.put("username", userName);
+                    data.put("userId1", uid);
                     transaction.set(sfDocRef, data);
 
                 }

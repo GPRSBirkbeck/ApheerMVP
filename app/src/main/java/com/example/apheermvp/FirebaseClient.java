@@ -74,6 +74,7 @@ public class FirebaseClient {
 
         db.collection("Locations")
                 .whereEqualTo("userId", uid)
+                .whereLessThan("startDate", -20000)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
