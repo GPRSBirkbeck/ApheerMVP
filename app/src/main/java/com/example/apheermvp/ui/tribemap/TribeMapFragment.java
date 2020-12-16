@@ -96,175 +96,9 @@ public class TribeMapFragment extends Fragment {
                         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                     }
-/*                    else {
-                        LatLng london = new LatLng(51.5074, 0.1278);
-                        googleMap.addMarker(new MarkerOptions().position(london)
-                                .title("London"));
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLng(london));
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(london, 15));
-                    }*/
-                    //addMapMarkers(googleMap);
-                    // R.id.map is a FrameLayout, not a Fragment
-                    /*googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-*/
-/*                    if (latLng != null) {
-                        if(mClusterManager == null){
-                            mClusterManager = new ClusterManager(getActivity().getApplicationContext(), googleMap);
-                        }
-                        if(mClusterMarketManagerRenderer == null){
-                            mClusterMarketManagerRenderer = new MyClusterMarketManagerRenderer(
-                                    getActivity(),
-                                    googleMap,
-                                    mClusterManager
-                            );
-                            mClusterManager.setRenderer(mClusterMarketManagerRenderer);
-                        }
-                        String snippet = "This is you!";
-                        int personImage = R.drawable.jackie_chan;
-                        MapClusterMarker mapClusterMarker = new MapClusterMarker(
-                                latLng,
-                                userName,
-                                snippet,
-                                personImage
-
-                        );
-                        mClusterManager.addItem(mapClusterMarker);
-                        mapClusterMarkerArrayList.add(mapClusterMarker);
-
-
-                        googleMap.addMarker(new MarkerOptions().position(latLng)
-                                .title(userName));
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-                    } else {
-                        LatLng london = new LatLng(51.5074, 0.1278);
-                        googleMap.addMarker(new MarkerOptions().position(london)
-                                .title("London"));
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLng(london));
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(london, 15));
-                    }*/
-
             }
             });
             getChildFragmentManager().beginTransaction().replace(R.id.mapTribe, mapFragment).commit();
-
-            // R.id.map is a FrameLayout, not a Fragment
-/*            getChildFragmentManager().beginTransaction().replace(R.id.mapTribe, mapFragment).commit();
-            DocumentReference docRef = db.collection("Locations").document(uid);
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            final GeoPoint current_location = document.getGeoPoint("coordinates");
-                            double lat = current_location.getLatitude();
-                            double lng = current_location.getLongitude();
-                            latLng = new LatLng(lat, lng);
-
-                            mapFragment.getMapAsync(new OnMapReadyCallback() {
-                                @Override
-                                public void onMapReady(final GoogleMap googleMap) {
-                                    addMapMarkers(googleMap);
-                                    //BitmapDescriptor icon = getMarkerIconFromDrawable(R.drawable.jackie_chan);
-                                    //BitmapDescriptor icon = bitmapDescriptorFromVector(getContext(), R.drawable.jackie_chan);
-                                    if(mClusterManager == null){
-                                        mClusterManager = new ClusterManager(getActivity().getApplicationContext(), googleMap);
-                                    }
-
-                                    if(mClusterMarketManagerRenderer == null){
-                                        mClusterMarketManagerRenderer = new MyClusterMarketManagerRenderer(
-                                                getActivity(),
-                                                googleMap,
-                                                mClusterManager
-                                        );
-                                        mClusterManager.setRenderer(mClusterMarketManagerRenderer);
-                                    }
-
-
-                                    Bitmap icon = BitmapFactory.decodeResource(getResources(),
-                                            R.drawable.jackie_chan);
-                                    BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(icon);*/
-/*                                    if (latLng != null) {
-                                        String snippet = "This is your friend";
-                                        int personImage = R.drawable.jackie_chan; //default person logo
-                                        googleMap.addMarker(new MarkerOptions().position(latLng)
-                                                .title(userName)
-                                                .icon(bitmapDescriptor));
-
-                                        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-                                    } else {
-                                        LatLng london = new LatLng(51.5074, 0.1278);
-                                        googleMap.addMarker(new MarkerOptions().position(london)
-                                                .title("London"));
-                                        googleMap.animateCamera(CameraUpdateFactory.newLatLng(london));
-                                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(london, 15));
-                                    }*/
-/*                                    db.collection("Locations")
-                                            .whereGreaterThan("number_of_locations_counter", -1)
-                                            .get()
-                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        for (final QueryDocumentSnapshot document : task.getResult()) {
-                                                            String snippet = "This is your friend " + document.getString("userName") + " in " + document.getString("current_location");
-                                                            int personImage = R.drawable.jackie_chan; //default person logo
-
-                                                            //TODO uncomment this so i can fix the logos per person
-                                                            //now try and get the logo they have saved, won't be doable till i've built that functionality
-*//*                                                            try{
-                                                                personImage = Integer.parseInt(document.getString("personimage"));
-                                                            }
-                                                            catch (NumberFormatException e){
-                                                                Log.d(TAG, "onComplete: no avatar available for" + document.getString("userName"));
-                                                            }*//*
-
-
-                                                            //BitmapDescriptor icon = getMarkerIconFromDrawable( R.drawable.jackie_chan);
-                                                            *//*Drawable drawable = getResources().getDrawable(R.drawable.jackie_chan);
-                                                            Bitmap icon = BitmapFactory.decodeResource(getResources(),
-                                                                    R.drawable.jackie_chan);
-                                                            BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(icon);*//*
-                                                            final GeoPoint current_location = document.getGeoPoint("coordinates");
-                                                            double lat = current_location.getLatitude();
-                                                            double lng = current_location.getLongitude();
-                                                            MapClusterMarker mapClusterMarker = new MapClusterMarker(
-                                                                new LatLng(lat, lng),
-                                                                        document.getString("userName"),
-                                                                        snippet,
-                                                                        personImage
-
-                                                            );
-                                                            mClusterManager.addItem(mapClusterMarker);
-                                                            mapClusterMarkerArrayList.add(mapClusterMarker);
-                                                            Log.d(TAG, document.getId() + " => " + document.getData());
-            *//*                                                final GeoPoint current_location = document.getGeoPoint("coordinates");
-                                                            double lat = current_location.getLatitude();
-                                                            double lng = current_location.getLongitude();*//*
-                                                            //latLng = new LatLng(lat, lng);
-                                                            *//*googleMap.addMarker(new MarkerOptions().position(latLng)
-                                                                    .title(document.getString("userName"))
-                                                                    .icon(bitmapDescriptor));*//*
-                                                        }
-                                                        mClusterManager.cluster();
-                                                    } else {
-                                                        Log.d(TAG, "Error getting documents: ", task.getException());
-                                                    }
-                                                }
-                                            });*/
-/*                                }
-
-                            });
-                        }
-                    } else {
-                        Log.d(TAG, "get failed with ", task.getException());
-                    }
-                }
-            });*/
         }
 
         return root;
@@ -318,11 +152,6 @@ public class TribeMapFragment extends Fragment {
                                                         final FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
                                                         final String uid = currentUser.getUid();
                                                         final String userName = currentUser.getDisplayName();
-        /*                                                if(document.getString("userName") == userName){
-                                                            googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                                                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-
-                                                        }*/
                                                         String snippet = "This is your friend " + document.getString("userName") + " in " + document.getString("current_location");
                                                         int personImage = R.drawable.jackie_chan; //default person logo
 
@@ -334,9 +163,7 @@ public class TribeMapFragment extends Fragment {
                                                             Log.d(TAG, "onComplete: no avatar available for" + document.getString("userName"));
                                                         }
 
-/*                                                            Bitmap icon = BitmapFactory.decodeResource(getResources(),
-                                                                    R.drawable.jackie_chan);
-                                                            BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(icon);*/
+
                                                         final GeoPoint current_location = document.getGeoPoint("coordinates");
                                                         double lat = current_location.getLatitude();
                                                         double lng = current_location.getLongitude();
@@ -353,10 +180,6 @@ public class TribeMapFragment extends Fragment {
                                                         final GeoPoint current_location2 = document.getGeoPoint("coordinates");
                                                         double lat2 = current_location2.getLatitude();
                                                         double lng2 = current_location2.getLongitude();
-                                                        //latLng = new LatLng(lat, lng);
-/*                                                            googleMap.addMarker(new MarkerOptions().position(latLng)
-                                                                    .title(document.getString("userName"))
-                                                                    .icon(bitmapDescriptor));*/
                                                     }
                                                     mClusterManager.cluster();
                                                 } else {
@@ -373,89 +196,8 @@ public class TribeMapFragment extends Fragment {
                 }
             }
         });
-
-
-/*        final String userName = currentUser.getDisplayName();
-        if(mapFragment == null){
-
-            if(mClusterManager == null){
-                mClusterManager = new ClusterManager<MapClusterMarker>(getActivity().getApplicationContext(), mGoogleMap);
-            }
-            if(mClusterMarketManagerRenderer == null){
-                mClusterMarketManagerRenderer = new MyClusterMarketManagerRenderer(
-                        getActivity(),
-                        mGoogleMap,
-                        mClusterManager
-                );
-                mClusterManager.setRenderer(mClusterMarketManagerRenderer);
-            }
-            String snippet = "This is you!";
-            int personImage = R.drawable.jackie_chan;
-            MapClusterMarker mapClusterMarker = new MapClusterMarker(
-                    latLng,
-                    userName,
-                    snippet,
-                    personImage
-
-            );*/
-/*            mClusterManager.addItem(mapClusterMarker);
-            mapClusterMarkerArrayList.add(mapClusterMarker);
-
-            db.collection("Locations")
-                    .whereGreaterThan("number_of_locations_counter", -1)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (final QueryDocumentSnapshot document : task.getResult()) {
-                                    String snippet = "This is your friend " + document.getString("userName") + " in " + document.getString("current_location");
-                                    int personImage = R.drawable.jackie_chan; //default person logo
-
-                                    //TODO uncomment this so i can fix the logos per person
-                                    //now try and get the logo they have saved, won't be doable till i've built that functionality
-                                                            try{
-                                                                personImage = Integer.parseInt(document.getString("personimage"));
-                                                            }
-                                                            catch (NumberFormatException e){
-                                                                Log.d(TAG, "onComplete: no avatar available for" + document.getString("userName"));
-                                                            }
-
-
-                                    //BitmapDescriptor icon = getMarkerIconFromDrawable( R.drawable.jackie_chan);
-                                                            *//*Drawable drawable = getResources().getDrawable(R.drawable.jackie_chan);
-                                                            Bitmap icon = BitmapFactory.decodeResource(getResources(),
-                                                                    R.drawable.jackie_chan);
-                                                            BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(icon);*//*
-                                    final GeoPoint current_location = document.getGeoPoint("coordinates");
-                                    double lat = current_location.getLatitude();
-                                    double lng = current_location.getLongitude();
-                                    MapClusterMarker mapClusterMarker = new MapClusterMarker(
-                                            new LatLng(lat, lng),
-                                            document.getString("userName"),
-                                            snippet,
-                                            personImage
-
-                                    );
-                                    mClusterManager.addItem(mapClusterMarker);
-                                    mapClusterMarkerArrayList.add(mapClusterMarker);
-                                    Log.d(TAG, document.getId() + " => " + document.getData());
-*//*                                                            final GeoPoint current_location2 = document.getGeoPoint("coordinates");
-                                                            double lat2 = current_location2.getLatitude();
-                                                            double lng2 = current_location2.getLongitude();*//*
-                                    //latLng = new LatLng(lat, lng);
-                                                            *//*googleMap.addMarker(new MarkerOptions().position(latLng)
-                                                                    .title(document.getString("userName"))
-                                                                    .icon(bitmapDescriptor));*//*
-                                }
-                                mClusterManager.cluster();
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
-                            }
-                        }
-                    });*/
-        }
     }
+}
 
 
 
