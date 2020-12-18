@@ -157,6 +157,7 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
                         previousSpotLevelOne.put("location", previousLocationString);
                         previousSpotLevelOne.put("geopoint", previous_location);
                         previousSpotLevelOne.put("userId", uid);
+                        previousSpotLevelOne.put("locationId", "previous_location"  + uid+ newNumberOfLocations);
 
                         Map<String, Object> previousSpotLevelTwo = new HashMap<>();
                         Log.d(TAG, "apply: previousSpotLevelOne.hashCode()");
@@ -176,6 +177,7 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
                         previousSpot.put("location", previousLocationString);
                         previousSpot.put("geopoint", previous_location);
                         previousSpot.put("userId", uid);
+                        previousSpot.put("locationId", "previous_location"  + uid+ newNumberOfLocations);
                         //write the map to the previous_location document)
 
 /*                        List<Map<String,Object>> maps = new ArrayList<Map<String,Object>>();

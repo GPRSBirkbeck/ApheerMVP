@@ -7,15 +7,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.apheermvp.R;
 import com.example.apheermvp.models.FormerLocation;
 import com.example.apheermvp.models.Friend;
 import com.example.apheermvp.repositories.ApheerRepository;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,11 +17,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.GeoPoint;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileViewModel extends ViewModel {
@@ -93,5 +83,19 @@ public class ProfileViewModel extends ViewModel {
 
     public String getUid() {
         return uid;
+    }
+
+    public void setFormerLocationPicture(int position) {
+        mApheerRepository.setFormerLocationPicture(position);
+    }
+
+    public Friend getClickedFriend(int position) {
+        Friend clickedFriend = mApheerRepository.getClickedFriend(position);
+        return clickedFriend;
+    }
+
+    public FormerLocation getClickedCity(int position) {
+        FormerLocation clickedFormerLocation = mApheerRepository.getClickedFormerLocation(position);
+        return clickedFormerLocation;
     }
 }

@@ -5,12 +5,14 @@ public class Friend {
     private String friendName;
     private String friend_location;
     private Integer friendImage;
+    private String userId;
 
     //constructor
-    public Friend(String friendName, String friend_location, Integer friendImage) {
+    public Friend(String friendName, String friend_location, Integer friendImage, String userId) {
         this.friendName = friendName;
         this.friend_location = friend_location;
         this.friendImage = friendImage;
+        this.userId = userId;
     }
 
     //getters and setters below
@@ -38,4 +40,11 @@ public class Friend {
         return friendImage;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }

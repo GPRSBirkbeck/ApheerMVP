@@ -30,4 +30,17 @@ public class ApheerRepository {
     public LiveData<List<FormerLocation>> getFormerLocation(){ return mFireBaseClient.getFormerLocation(); }
 
 
+    public void setFormerLocationPicture(int position) {
+        mFireBaseClient.setFormerLocationPicture(position);
+    }
+
+    public Friend getClickedFriend(int position) {
+        Friend clickedFriend = mFireBaseClient.getClickedFriend(position);
+        return clickedFriend;
+    }
+
+    public FormerLocation getClickedFormerLocation(int position) {
+        FormerLocation clickedFormerLocation = mFireBaseClient.getClickedFormerLocation(position);
+        return clickedFormerLocation;
+    }
 }

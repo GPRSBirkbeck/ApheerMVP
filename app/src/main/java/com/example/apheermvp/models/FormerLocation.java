@@ -5,12 +5,15 @@ public class FormerLocation {
     private String former_city_name;
     private String dates_in_former_city;
     private Integer cityImage;
+    private String locationId;
+
 
     //constructor
-    public FormerLocation(String former_city_name, String dates_in_former_city, Integer cityImage) {
+    public FormerLocation(String former_city_name, String dates_in_former_city, Integer cityImage, String locationId) {
         this.former_city_name = former_city_name;
         this.dates_in_former_city = dates_in_former_city;
         this.cityImage = cityImage;
+        this.locationId = locationId;
     }
 
     //getters and setters below
@@ -38,4 +41,11 @@ public class FormerLocation {
         return cityImage;
     }
 
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
+    }
 }

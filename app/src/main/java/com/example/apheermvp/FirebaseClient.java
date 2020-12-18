@@ -1,5 +1,6 @@
 package com.example.apheermvp;
 
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -54,8 +55,9 @@ public class FirebaseClient {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String friendName = document.getString("userName");
                                 String friendLocation = document.getString("current_location");
+                                String userId = document.getString("userId1");
                                 Integer friendImage = R.drawable.macron_image;
-                                Friend friend = new Friend(friendName,friendLocation,friendImage);
+                                Friend friend = new Friend(friendName,friendLocation,friendImage, userId);
                                 mFriendList.add(friend);
                             }
                             mFriends.postValue(mFriendList);
@@ -74,7 +76,6 @@ public class FirebaseClient {
 
         db.collection("Locations")
                 .whereEqualTo("userId", uid)
-                .whereLessThan("startDate", -20000)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -84,8 +85,9 @@ public class FirebaseClient {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String cityName = document.getString("location");
                                 String dates_in_former_city = document.getDouble("startDate").toString();
+                                String locationId = document.getString("locationId");
                                 Integer friendImage = R.drawable.london_photo;
-                                FormerLocation formerLocation = new FormerLocation(cityName,dates_in_former_city,friendImage);
+                                FormerLocation formerLocation = new FormerLocation(cityName,dates_in_former_city,friendImage, locationId);
                                 formerLocationList.add(formerLocation);
                             }
                             mFormerLocations.postValue(formerLocationList);
@@ -97,4 +99,19 @@ public class FirebaseClient {
         return mFormerLocations;
     }
 
+    public void setFormerLocationPicture(int position) {
+        FormerLocation clickedFormerLocation = mFormerLocations.getValue().get(position);
+        //clickedFormerLocation.getCityImage();
+        Log.d(TAG, "setFormerLocationPicture: clicked formerlocation" + clickedFormerLocation.getFormer_city_name());
+    }
+
+    public Friend getClickedFriend(int position) {
+        Friend clickedFriend = mFriends.getValue().get(position);
+        return clickedFriend;
+    }
+
+    public FormerLocation getClickedFormerLocation(int position) {
+        FormerLocation clickedFormerLocation = mFormerLocations.getValue().get(position);
+        return clickedFormerLocation;
+    }
 }

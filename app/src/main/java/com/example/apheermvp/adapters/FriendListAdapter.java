@@ -24,36 +24,34 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private List<Friend> mFriends = new ArrayList<>();
     //TODO if we want an onclick for friends, need to create an interface for the below onclick interface
-/*    //private OnLocationListener onLocationListener;
+   private OnPictureListener onPictureListener;
 
-    public LocationListAdapter(OnLocationListener onRateListener) {
-        this.onLocationListener = onRateListener;
-    }*/
+    public FriendListAdapter(OnPictureListener onPictureListener) {
+        this.onPictureListener = onPictureListener;
+    }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_friends_listitem, parent, false);
-        return new FriendsViewholder(view);
+        return new FriendsViewholder(view, onPictureListener);
         //uncomment and use below is you need an onclick
         //return new RatesViewholder(view, onLocationListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
-        final String uid = currentUser.getUid();
 
         //TODO change this to relate to the user's own picture
         StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
-        StorageReference profilePictures = mStorageReference.child("profilepictures/" + uid);
+        StorageReference profilePictures = mStorageReference.child("profilepictures/" + mFriends.get(position).getUserId());
 
         ((FriendsViewholder)holder).friend_name.setText(mFriends.get(position).getFriendName() + " ");
         ((FriendsViewholder)holder).friend_location.setText("in " + mFriends.get(position).getFriend_location());
 
         RequestOptions requestOptions = new RequestOptions()
                 //TODO replace the placeholder image with a feedme logo.
-                .placeholder(R.drawable.ic_launcher_background);
+                .placeholder(R.drawable.jackie_chan);
         Glide.with(holder.itemView.getContext())
                 .setDefaultRequestOptions(requestOptions)
                 .load(profilePictures)

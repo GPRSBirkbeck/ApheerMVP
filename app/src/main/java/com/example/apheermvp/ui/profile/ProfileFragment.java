@@ -27,27 +27,24 @@ import com.example.apheermvp.R;
 import com.example.apheermvp.Sign_In_Activity;
 import com.example.apheermvp.adapters.FriendListAdapter;
 import com.example.apheermvp.adapters.LocationListAdapter;
+import com.example.apheermvp.adapters.OnPictureListener;
 import com.example.apheermvp.models.FormerLocation;
 import com.example.apheermvp.models.Friend;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements OnPictureListener {
 
     private ProfileViewModel mProfileViewModel;
     private Button signOutButton;
@@ -68,6 +65,11 @@ public class ProfileFragment extends Fragment {
     private Uri imageUri;
     private FirebaseStorage mStorage;
     private StorageReference mStorageReference;
+    public static final int UPDATE_MY_PICTURE_REQUEST = 1;
+    public static final int UPDATE_FRIEND_PICTURE_REQUEST = 2;
+    public static final int UPDATE_FORMER_LOCATION_PICTURE_REQUEST = 3;
+    private Friend mFriend;
+    private FormerLocation mFormerLocation;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -107,7 +109,7 @@ public class ProfileFragment extends Fragment {
         mProfile_picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setNewProfilePicture();
+                setNewProfilePicture(UPDATE_MY_PICTURE_REQUEST);
             }
         });
 
@@ -138,57 +140,139 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1 && resultCode == RESULT_OK && data.getData()!=null){
+        if(requestCode == UPDATE_MY_PICTURE_REQUEST && resultCode == RESULT_OK && data.getData()!=null){
             imageUri = data.getData();
             mProfile_picture.setImageURI(imageUri);
-            uploadPicture();
-
+            uploadPicture(UPDATE_MY_PICTURE_REQUEST);
+        }
+        if(requestCode == UPDATE_FRIEND_PICTURE_REQUEST && resultCode == RESULT_OK && data.getData()!=null){
+            imageUri = data.getData();
+            //TODO find a way of immediately displaying the friend image here.
+            //mFriend.setFriendImage(imageUri);
+            uploadPicture(UPDATE_FRIEND_PICTURE_REQUEST);
+        }
+        if(requestCode == UPDATE_FORMER_LOCATION_PICTURE_REQUEST && resultCode == RESULT_OK && data.getData()!=null){
+            imageUri = data.getData();
+            //mProfile_picture.setImageURI(imageUri);
+            uploadPicture(UPDATE_FORMER_LOCATION_PICTURE_REQUEST);
         }
     }
 
-    private void uploadPicture() {
+    private void uploadPicture(int requestCode) {
         final ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("uploading image...");
         progressDialog.show();
-        StorageReference profilePictures = mStorageReference.child("profilepictures/" + mProfileViewModel.getUid());
+        StorageReference profilePictures;
+        if(requestCode == UPDATE_MY_PICTURE_REQUEST){
+            profilePictures = mStorageReference.child("profilepictures/" + mProfileViewModel.getUid());
+            profilePictures.putFile(imageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                            // Get a URL to the uploaded content
+                            //Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            Toast.makeText(context, "Profile picture added", Toast.LENGTH_LONG).show();
 
-        profilePictures.putFile(imageUri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        progressDialog.dismiss();
-                        // Get a URL to the uploaded content
-                        //Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                        Toast.makeText(context, "Profile picture added", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            progressDialog.dismiss();
+                            Toast.makeText(context, "Failed to upload", Toast.LENGTH_LONG).show();
 
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        progressDialog.dismiss();
-                        Toast.makeText(context, "Failed to upload", Toast.LENGTH_LONG).show();
+                            // Handle unsuccessful uploads
+                            // ...
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                            double progressSnapshot = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                            int progressSnapshotInt = (int)progressSnapshot;
+                            progressDialog.setMessage("Progress " + progressSnapshotInt + "%");
+                        }
+                    });
+        }
+        if(requestCode == UPDATE_FRIEND_PICTURE_REQUEST){
+            StorageReference friendPictures = mStorageReference.child("profilepictures/" + mFriend.getUserId());
+            friendPictures.putFile(imageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                            // Get a URL to the uploaded content
+                            //Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            Toast.makeText(context, "Friend's picture added", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            progressDialog.dismiss();
+                            Toast.makeText(context, "Failed to upload", Toast.LENGTH_LONG).show();
 
-                        // Handle unsuccessful uploads
-                        // ...
-                    }
-                })
-                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                        double progressSnapshot = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                        int progressSnapshotInt = (int)progressSnapshot;
-                        progressDialog.setMessage("Progress " + progressSnapshotInt + "%");
-                    }
-                });
+                            // Handle unsuccessful uploads
+                            // ...
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                            double progressSnapshot = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                            int progressSnapshotInt = (int)progressSnapshot;
+                            progressDialog.setMessage("Progress " + progressSnapshotInt + "%");
+                        }
+                    });
+        }
+        if(requestCode == UPDATE_FORMER_LOCATION_PICTURE_REQUEST){
+            StorageReference formerLocationPictures = mStorageReference.child("cityPictures/" + mFormerLocation.getLocationId());
+            formerLocationPictures.putFile(imageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                            // Get a URL to the uploaded content
+                            //Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            Toast.makeText(context, "Former city picture added", Toast.LENGTH_LONG).show();
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            progressDialog.dismiss();
+                            Toast.makeText(context, "Failed to upload", Toast.LENGTH_LONG).show();
+
+                            // Handle unsuccessful uploads
+                            // ...
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                            double progressSnapshot = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                            int progressSnapshotInt = (int)progressSnapshot;
+                            progressDialog.setMessage("Progress " + progressSnapshotInt + "%");
+                        }
+                    });
+        }
     }
 
-    private void setNewProfilePicture() {
+    private void setNewProfilePicture(int i) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, 1);
-
+        if(i == UPDATE_MY_PICTURE_REQUEST){
+            startActivityForResult(intent, UPDATE_MY_PICTURE_REQUEST);
+        }
+        if(i == UPDATE_FRIEND_PICTURE_REQUEST){
+            startActivityForResult(intent, UPDATE_FRIEND_PICTURE_REQUEST);
+        }
+        if(i == UPDATE_FORMER_LOCATION_PICTURE_REQUEST){
+            startActivityForResult(intent, UPDATE_FORMER_LOCATION_PICTURE_REQUEST);
+        }
     }
 
     public void subscribeObservers(){
@@ -214,12 +298,6 @@ public class ProfileFragment extends Fragment {
 
     public void getProfilePicture(View root){
         StorageReference profilePictures = mStorageReference.child("profilepictures/" + mProfileViewModel.getUid());
-        // Reference to an image file in Cloud Storage
-        //StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-        //StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-       // StorageReference profilePictures = storageReference.child("profilepictures/" + mProfileViewModel.getUid());
-        // ImageView in your Activity
-        ImageView imageView = root.findViewById(R.id.profile_picture);
 
         RequestOptions requestOptions = new RequestOptions()
                 //TODO replace the placeholder image with a feedme logo.
@@ -238,13 +316,25 @@ public class ProfileFragment extends Fragment {
     private void initRecylcerViews(Context context){
         //TODO add "this" into the constructors for new FriendListAdapter
         // and new LocationListAdapter if you want onclick events
-        mFriendListAdapter = new FriendListAdapter();
+        mFriendListAdapter = new FriendListAdapter(this);
         mFriendsRecylcerView.setAdapter(mFriendListAdapter);
         mFriendsRecylcerView.setLayoutManager(new LinearLayoutManager(context));
 
-        mLocationListAdapter = new LocationListAdapter();
+        mLocationListAdapter = new LocationListAdapter(this);
         mLocationsRecyclerView.setAdapter(mLocationListAdapter);
         mLocationsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
     }
 
+    @Override
+    public void onFriendPictureClick(int position) {
+        mFriend = mProfileViewModel.getClickedFriend(position);
+        setNewProfilePicture(UPDATE_FRIEND_PICTURE_REQUEST);
+
+    }
+
+    @Override
+    public void onFormerLocationClick(int position) {
+        mFormerLocation = mProfileViewModel.getClickedCity(position);
+        setNewProfilePicture(UPDATE_FORMER_LOCATION_PICTURE_REQUEST);
+    }
 }

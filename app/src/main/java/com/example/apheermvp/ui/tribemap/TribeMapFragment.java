@@ -58,6 +58,9 @@ public class TribeMapFragment extends Fragment {
     private static final String TAG = "TribeMapFragment";
     private LatLng latLng;
     private GoogleMap map;
+    private FirebaseStorage mStorage;
+    private StorageReference mStorageReference;
+
 
     //for clusterings
     private ClusterManager<MapClusterMarker> mClusterManager;
@@ -69,6 +72,9 @@ public class TribeMapFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         //instantiate the DB
         db = FirebaseFirestore.getInstance();
+        mStorage = FirebaseStorage.getInstance();
+        mStorageReference = mStorage.getReference();
+
 
         tribeMapViewModel =
                 ViewModelProviders.of(this).get(TribeMapViewModel.class);
@@ -111,7 +117,6 @@ public class TribeMapFragment extends Fragment {
         final String uid = currentUser.getUid();
 
         //TODO change this to relate to the user's own picture
-        StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
         final StorageReference profilePictures = mStorageReference.child("profilepictures/" + uid);
 
         //first get location for current user
