@@ -54,6 +54,8 @@ public class ConversationActivity extends AppCompatActivity implements OnPicture
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO do something
+
 
             }
         });

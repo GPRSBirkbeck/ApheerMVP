@@ -3,6 +3,7 @@ package com.example.apheermvp.repositories;
 import androidx.lifecycle.LiveData;
 
 import com.example.apheermvp.FirebaseClient;
+import com.example.apheermvp.models.Conversation;
 import com.example.apheermvp.models.FormerLocation;
 import com.example.apheermvp.models.Friend;
 
@@ -42,5 +43,9 @@ public class ApheerRepository {
     public FormerLocation getClickedFormerLocation(int position) {
         FormerLocation clickedFormerLocation = mFireBaseClient.getClickedFormerLocation(position);
         return clickedFormerLocation;
+    }
+
+    public LiveData<List<Conversation>> getMessages() {
+        return mFireBaseClient.getMessages();
     }
 }
