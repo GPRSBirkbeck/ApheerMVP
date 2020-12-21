@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.apheermvp.models.Conversation;
 import com.example.apheermvp.models.FormerLocation;
 import com.example.apheermvp.models.Friend;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,6 +25,7 @@ public class FirebaseClient {
     private static final String TAG = "FireBaseClient";
     private static FirebaseClient instance;
     private MutableLiveData<List<Friend>> mFriends;
+    private MutableLiveData<List<Conversation>> mMessages;
     private MutableLiveData<List<FormerLocation>> mFormerLocations;
     //firebase elements
     private FirebaseAuth mAuth;
@@ -39,6 +41,7 @@ public class FirebaseClient {
     private FirebaseClient(){
         mFriends = new MutableLiveData<>();
         mFormerLocations = new MutableLiveData<>();
+        mMessages = new MutableLiveData<>();
         db = FirebaseFirestore.getInstance();
 
     }
@@ -84,7 +87,7 @@ public class FirebaseClient {
                             ArrayList<FormerLocation> formerLocationList = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String cityName = document.getString("location");
-                                String dates_in_former_city = document.getDouble("startDate").toString();
+                                String dates_in_former_city = "From "  + Math.round(document.getDouble("startDate")) + "to " + Math.round(document.getDouble("endDate"));
                                 String locationId = document.getString("locationId");
                                 Integer friendImage = R.drawable.london_photo;
                                 FormerLocation formerLocation = new FormerLocation(cityName,dates_in_former_city,friendImage, locationId);
@@ -113,5 +116,16 @@ public class FirebaseClient {
     public FormerLocation getClickedFormerLocation(int position) {
         FormerLocation clickedFormerLocation = mFormerLocations.getValue().get(position);
         return clickedFormerLocation;
+    }
+
+    public LiveData<List<Conversation>> getMessages() {
+        //TODO fix this to load from DB once data is added
+        ArrayList<Conversation> conversationArrayList = new ArrayList<>();
+        conversationArrayList.add(new Conversation("Macron", R.drawable.macron_image, "Bonjour monsieur"));
+        conversationArrayList.add(new Conversation("Pierre", R.drawable.macron_image, "Bonjour, Mr. President"));
+        conversationArrayList.add(new Conversation("Mark", R.drawable.macron_image, "Ou est votre bateau?"));
+        conversationArrayList.add(new Conversation("Gregory", R.drawable.macron_image, "En Espagne, Monsieur"));
+        mMessages.postValue(conversationArrayList);
+        return  mMessages;
     }
 }

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -117,7 +118,7 @@ public class TribeMapFragment extends Fragment {
         final String uid = currentUser.getUid();
 
         //TODO change this to relate to the user's own picture
-        final StorageReference profilePictures = mStorageReference.child("profilepictures/" + uid);
+        //final StorageReference profilePictures = mStorageReference.child("profilepictures/" + uid);
 
         //first get location for current user
         DocumentReference docRef = db.collection("Locations").document(uid);
@@ -165,27 +166,16 @@ public class TribeMapFragment extends Fragment {
 
                                                         final String userName = currentUser.getDisplayName();
                                                         String snippet = "This is your friend " + document.getString("userName") + " in " + document.getString("current_location");
-                                                        int personImage = R.drawable.jackie_chan; //default person logo
+                                                        String userId = document.getString("userId1");
+                                                        StorageReference profilePictures = mStorageReference.child("profilepictures/" + userId);
 
-                                                        //TODO uncomment this so i can fix the logos per person
-                                                        //now try and get the logo they have saved, won't be doable till i've built that functionality
-                                                        try {
-                                                            personImage = Integer.parseInt(document.getString("personimage"));
-                                                        } catch (NumberFormatException e) {
-                                                            Log.d(TAG, "onComplete: no avatar available for" + document.getString("userName"));
-                                                        }
-
+                                                        //TODO use something along these lines as it downloads the image as far as i can tell
+                                                        //Uri imageUri = profilePictures;
+                                                        //mProfile_picture.setImageURI(imageUri); (from profile fragment)
 
                                                         final GeoPoint current_location = document.getGeoPoint("coordinates");
                                                         double lat = current_location.getLatitude();
                                                         double lng = current_location.getLongitude();
-                                                        MapClusterMarker mapClusterMarker = new MapClusterMarker(
-                                                                new LatLng(lat, lng),
-                                                                document.getString("userName"),
-                                                                snippet,
-                                                                personImage
-
-                                                        );
 
                                                         MapClusterMarker mapClusterMarker2 = new MapClusterMarker(
                                                                 new LatLng(lat, lng),

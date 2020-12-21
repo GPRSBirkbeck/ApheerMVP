@@ -6,43 +6,58 @@
     android:layout_height="match_parent"
     tools:context=".ui.tribechat.TribeChatFragment">
 
+    <TextView
+        android:padding="8dp"
+        android:id="@+id/your_conversations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textSize="18sp"
+        android:text="Your Conversations"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/your_conversations_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/your_conversations"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:paddingLeft="16dp"
+        android:paddingBottom="16dp"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/text_dashboard"
             android:layout_width="match_parent"
+            android:textSize="18sp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:textAlignment="center"
-            android:textSize="20sp" />
-
+            android:gravity="center_horizontal"
+            android:text="Want to invite a friend?"/>
 
         <EditText
+            android:id="@+id/edit_text_friend_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/edit_text_friend_email"
-            android:hint="please provide the name of the friend you'd like to invite"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:hint="friend's email address" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="click here to invite"
             android:id="@+id/invite_button"
-            android:onClick="sendInviteEmail"
-            android:layout_gravity="center"/>
-
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="click here to invite" />
 
     </LinearLayout>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

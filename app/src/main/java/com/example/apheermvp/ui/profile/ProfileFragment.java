@@ -123,6 +123,7 @@ public class ProfileFragment extends Fragment implements OnPictureListener {
 
 
         //link up user location to DB user location (from viewmodel)
+        //TODO make this work.
         mProfileViewModel.getUserLocation().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

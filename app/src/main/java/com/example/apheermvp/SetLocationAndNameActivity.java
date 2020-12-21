@@ -121,7 +121,9 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
     }
 
     public void addDataToDatabase(final String location){
-        FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
+
+        //TODO uncomment when I want the add functionality to be active again
+ /*       FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         final String uid = currentUser.getUid();
         final String userName = currentUser.getDisplayName();
         LocalDate currentdate = LocalDate.now();
@@ -164,10 +166,10 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
                         //previousSpotLevelTwo = (Map<String, Object>) db.collection("Locations").document(previous_location_uid);
                         //previousSpotLevelTwo.put(String.valueOf(newNumberOfLocations), previousSpotLevelOne);
                         //final CollectionReference sfDocRef5 = db.collection("Locations").document(previous_location_uid).collection(String.valueOf(newNumberOfLocations));
-/*
+*//*
 
                         //write the map to the previous_location document)
-                        transaction.set(sfDocRef5, previousSpotLevelTwo);*/
+                        transaction.set(sfDocRef5, previousSpotLevelTwo);*//*
                         transaction.set(sfDocRef3, previousSpotLevelOne);
                     }
                     else{
@@ -180,31 +182,31 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
                         previousSpot.put("locationId", "previous_location"  + uid+ newNumberOfLocations);
                         //write the map to the previous_location document)
 
-/*                        List<Map<String,Object>> maps = new ArrayList<Map<String,Object>>();
+*//*                        List<Map<String,Object>> maps = new ArrayList<Map<String,Object>>();
                         maps.add(previousSpot);
                         Map<String, HashMap<String, Object>> previousSpotLevelTwo = new HashMap<>();
                         previousSpotLevelTwo = (Map<String, HashMap<String, Object>>) db.collection("Locations").document(previous_location_uid);
                         previousSpotLevelTwo.put(String.valueOf(newNumberOfLocations), (HashMap<String, Object>) previousSpot);
 
-                        transaction.update(sfDocRef3, (Map<String, Object>) maps);*/
+                        transaction.update(sfDocRef3, (Map<String, Object>) maps);*//*
                         Map<String, Object> previousSpotLevelTwo = new HashMap<>();
                         Log.d(TAG, "apply: previousSpotLevelOne.hashCode()");
                         //previousSpotLevelTwo = (Map<String, Object>) db.collection("Locations").document(previous_location_uid);
                         previousSpotLevelTwo.put(String.valueOf(newNumberOfLocations), previousSpot);
 
                         //final CollectionReference sfDocRef5 = db.collection("Locations").document(previous_location_uid).collection(String.valueOf(newNumberOfLocations));
-/*
+*//*
 
                         //write the map to the previous_location document)
-                        transaction.set(sfDocRef5, previousSpotLevelTwo);*/
+                        transaction.set(sfDocRef5, previousSpotLevelTwo);*//*
                         //sfDocRef5.add(previousSpot);
                         String previous_location_uid = "previous_location"  + uid+ newNumberOfLocations;
                         final DocumentReference sfDocRef3 = db.collection("Locations").document(previous_location_uid);
                         transaction.set(sfDocRef3, previousSpot);
 
 
-/*                        //write the map to the previous_location document)
-                        transaction.update(sfDocRef3, previousSpotLevelTwo);*/
+*//*                        //write the map to the previous_location document)
+                        transaction.update(sfDocRef3, previousSpotLevelTwo);*//*
 
                         //now update the current location
                         transaction.update(sfDocRef, "current_location", location);
@@ -239,7 +241,7 @@ public class SetLocationAndNameActivity extends FragmentActivity implements OnMa
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Transaction failure.", e);
                     }
-                });
+                });*/
 
         openLandingPage();
     }
