@@ -18,6 +18,10 @@ import com.example.apheermvp.adapters.ConversationAdapter;
 import com.example.apheermvp.adapters.OnPictureListener;
 import com.example.apheermvp.models.Conversation;
 import com.example.apheermvp.ui.tribechat.TribeChatFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
@@ -28,6 +32,8 @@ public class ConversationActivity extends AppCompatActivity implements OnPicture
     private ConversationAdapter mConversationAdapter;
     private EditText text_input_editText;
     private ImageButton sendMessageButton;
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
 
 
 
@@ -39,7 +45,11 @@ public class ConversationActivity extends AppCompatActivity implements OnPicture
         mConversationViewModel =
                 ViewModelProviders.of(this).get(ConversationViewModel.class);
         Intent intent = getIntent();
+        mAuth = FirebaseAuth.getInstance();
+
         final String mFriendName = intent.getStringExtra(TribeChatFragment.EXTRA_MESSAGE);
+        FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
+        final String uid = currentUser.getUid();
         mFriend_name_text_view = findViewById(R.id.textView_friend_name);
         mFriend_name_text_view.setText("Your conversation with "  + mFriendName);
         mConversationRecylcerView = findViewById(R.id.active_conversation_recyclerview);
@@ -54,11 +64,24 @@ public class ConversationActivity extends AppCompatActivity implements OnPicture
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO do something
+                String documentReference = "chat1";
+                String message = text_input_editText.getText().toString();
+                addMessageToConversation(message, documentReference);
+                clearTextBox();
 
 
             }
         });
+    }
+
+    private void clearTextBox() {
+        //TODO make text in textbox disappear
+        text_input_editText.setText("");
+    }
+
+    private void addMessageToConversation(String message, String documentRefence) {
+        //TODO add functionality
+        mConversationViewModel.addMessageToConversation(message, documentRefence);
     }
 
     private void subscribeObservers() {

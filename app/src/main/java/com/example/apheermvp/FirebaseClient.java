@@ -11,15 +11,25 @@ import com.example.apheermvp.models.Conversation;
 import com.example.apheermvp.models.FormerLocation;
 import com.example.apheermvp.models.Friend;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FirebaseClient {
     private static final String TAG = "FireBaseClient";
@@ -43,6 +53,8 @@ public class FirebaseClient {
         mFormerLocations = new MutableLiveData<>();
         mMessages = new MutableLiveData<>();
         db = FirebaseFirestore.getInstance();
+        FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
+        final String uid = currentUser.getUid();
 
     }
     public LiveData<List<Friend>> getFriends(){
@@ -120,12 +132,58 @@ public class FirebaseClient {
 
     public LiveData<List<Conversation>> getMessages() {
         //TODO fix this to load from DB once data is added
-        ArrayList<Conversation> conversationArrayList = new ArrayList<>();
+/*        ArrayList<Conversation> conversationArrayList = new ArrayList<>();
         conversationArrayList.add(new Conversation("Macron", R.drawable.macron_image, "Bonjour monsieur"));
         conversationArrayList.add(new Conversation("Pierre", R.drawable.macron_image, "Bonjour, Mr. President"));
         conversationArrayList.add(new Conversation("Mark", R.drawable.macron_image, "Ou est votre bateau?"));
         conversationArrayList.add(new Conversation("Gregory", R.drawable.macron_image, "En Espagne, Monsieur"));
         mMessages.postValue(conversationArrayList);
-        return  mMessages;
+        return  mMessages;*/
+
+        db.collection("Conversations").document("chat1").collection("messages")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<Conversation> conversationArrayList = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String sender = document.getString("sender");
+                                String text = document.getString("text");
+/*                                String dates_in_former_city = "From "  + Math.round(document.getDouble("startDate")) + "to " + Math.round(document.getDouble("endDate"));
+                                String locationId = document.getString("locationId");
+                                Integer friendImage = R.drawable.london_photo;*/
+                                Conversation conversation = new Conversation(sender,R.drawable.macron_image, text);
+                                conversationArrayList.add(conversation);
+                            }
+                            mMessages.postValue(conversationArrayList);
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+        return mMessages;
+
+
     }
+
+    public void addMessageToConversation(String message, String documentRefence) {
+        FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
+        final String uid = currentUser.getUid();
+        Map<String, Object> docData = new HashMap<>();
+        docData.put("participant1_name", "Gregory");
+        docData.put("participant2_name", "Obama");
+        docData.put("participant1_id", uid);
+        docData.put("participant2_id", "E3p1CxfwcXgousx44tfjSnmekP92");
+        docData.put("message_counter", 0.00);
+
+
+        Map<String, Object> messageData = new HashMap<>();
+        messageData.put("sender", uid);
+        messageData.put("timeSent", new Timestamp(new Date()));
+        messageData.put("text", message);
+        docData.put("message1", messageData);
+        db.collection("Conversations").document(documentRefence).collection("messages").add(messageData);
+    }
+
 }

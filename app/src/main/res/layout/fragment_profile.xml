@@ -87,8 +87,7 @@
             app:layout_constraintTop_toBottomOf="@id/you_have_apheered_in">
 
         </androidx.recyclerview.widget.RecyclerView>
-
-        
     </LinearLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

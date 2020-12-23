@@ -6,6 +6,7 @@ import com.example.apheermvp.FirebaseClient;
 import com.example.apheermvp.models.Conversation;
 import com.example.apheermvp.models.FormerLocation;
 import com.example.apheermvp.models.Friend;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.util.List;
 
@@ -47,5 +48,9 @@ public class ApheerRepository {
 
     public LiveData<List<Conversation>> getMessages() {
         return mFireBaseClient.getMessages();
+    }
+
+    public void addMessageToConversation(String message, String documentRefence) {
+        mFireBaseClient.addMessageToConversation(message, documentRefence);
     }
 }
