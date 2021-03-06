@@ -9,19 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.apheermvp.ConversationActivity;
+import com.example.apheermvp.conversation.ConversationActivity;
 import com.example.apheermvp.R;
-import com.example.apheermvp.RegisterStepTwoPassword;
 import com.example.apheermvp.adapters.FriendListAdapter;
 import com.example.apheermvp.adapters.OnPictureListener;
 import com.example.apheermvp.models.Friend;

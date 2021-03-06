@@ -4,46 +4,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ConversationActivity">
-
-    <TextView
-        android:id="@+id/textView_friend_name"
-        android:padding="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/active_conversation_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/textView_friend_name"/>
+    tools:context=".conversation.ConversationActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="8"
-            android:id="@+id/chat_input_editText"/>
-
-
-        <ImageButton
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+        <TextView
+            android:id="@+id/textView_friend_name"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@null"
-            android:src="@drawable/send_24px"
-            android:id="@+id/send_message"/>
+            android:text=""
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_friend_name"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            >
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/active_conversation_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/textView_friend_name"/>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/message_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:background="@null"
+                android:id="@+id/chat_input_editText"
+                android:hint="send a message to your friend"/>
+
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/send_24px"
+                android:id="@+id/send_message"/>
+
+        </LinearLayout>
 
     </LinearLayout>
+
+
+
+
+
+
+
+
 
 
 

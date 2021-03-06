@@ -1,7 +1,9 @@
-package com.example.apheermvp;
+package com.example.apheermvp.conversation;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,18 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.apheermvp.R;
 import com.example.apheermvp.adapters.ConversationAdapter;
 import com.example.apheermvp.adapters.OnPictureListener;
 import com.example.apheermvp.models.Conversation;
+import com.example.apheermvp.repositories.ApheerRepository;
 import com.example.apheermvp.ui.tribechat.TribeChatFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
@@ -112,4 +114,6 @@ public class ConversationActivity extends AppCompatActivity implements OnPicture
     public void onFormerLocationClick(int position) {
 
     }
+
+
 }

@@ -13,6 +13,7 @@ import com.example.apheermvp.R;
 import com.example.apheermvp.models.Conversation;
 import com.example.apheermvp.models.Friend;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -21,6 +22,8 @@ import java.util.List;
 
 public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
+    final String uid = currentUser.getUid();
 
     private List<Conversation> mConversation = new ArrayList<>();
     //TODO if we want an onclick for friends, need to create an interface for the below onclick interface
@@ -45,10 +48,15 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         //TODO change this to relate to the user's own picture
         StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
         //TODO sort this line out
-        //StorageReference profilePictures = mStorageReference.child("profilepictures/" + mConversation.get(position).getUserId());
-        StorageReference profilePictures = mStorageReference.child("profilepictures/" + "E3p1CxfwcXgousx44tfjSnmekP92");
+        StorageReference profilePictures = mStorageReference.child("profilepictures/" + mConversation.get(position).getFriendName());
+        //StorageReference profilePictures = mStorageReference.child("profilepictures/" + "E3p1CxfwcXgousx44tfjSnmekP92");
 
-        ((ConversationViewHolder)holder).message_owner_name.setText(mConversation.get(position).getFriendName());
+        if (mConversation.get(position).getFriendName().equals(uid)) {
+            ((ConversationViewHolder)holder).message_owner_name.setText(currentUser.getDisplayName());
+        }
+        else{
+            ((ConversationViewHolder)holder).message_owner_name.setText(mConversation.get(position).getFriendName());
+        }
         ((ConversationViewHolder)holder).message_text.setText(mConversation.get(position).getMessageContent());
 
         RequestOptions requestOptions = new RequestOptions()

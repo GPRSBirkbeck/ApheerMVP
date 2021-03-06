@@ -5,10 +5,12 @@ public class Conversation {
     private Integer friendImage;
     private String messageContent;
 
+
     public Conversation(String friendName, Integer friendImage, String messageContent) {
         this.friendName = friendName;
         this.friendImage = friendImage;
         this.messageContent = messageContent;
+        //this.friendId = friendId;
     }
 
     public String getFriendName() {
@@ -34,4 +36,5 @@ public class Conversation {
     public void setMessageContent(String messageContent) {
         this.messageContent = messageContent;
     }
+
 }
