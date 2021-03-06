@@ -26,6 +26,10 @@ public class ApheerRepository {
     }
 
     public LiveData<List<Friend>> getFriends(){
+        return mFireBaseClient.getFriends();
+    }
+
+    public LiveData<List<Friend>> getAllUsers(){
         return mFireBaseClient.getAllUsers();
     }
 

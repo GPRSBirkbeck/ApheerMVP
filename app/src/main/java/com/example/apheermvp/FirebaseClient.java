@@ -77,14 +77,14 @@ public class FirebaseClient {
                                 Friend friend = new Friend(friendName,friendLocation,friendImage, userId);
                                 mFriendList.add(friend);
                             }
-                            mFriends.postValue(mFriendList);
+                            mAllUsers.postValue(mFriendList);
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
         //mAllUsers.postValue(mFriendList);
-        return mFriends;
+        return mAllUsers;
     }
     public LiveData<List<Friend>> getFriends() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -161,7 +161,6 @@ public class FirebaseClient {
                     }
                 });*/
 
-
 /*        db.collection("Relationships")
                 .whereEqualTo("friend2", uid)
                 .get()
@@ -209,7 +208,6 @@ public class FirebaseClient {
                         }
                     }
                 });*/
-
         db.collection("Relationships")
                 .whereEqualTo("friend2", uid)
                 .get()
@@ -226,7 +224,7 @@ public class FirebaseClient {
                                 Friend friend = new Friend(friendName,friend1_location, friendImage, otherUserId);
                                 mFriendList.add(friend);
                             }
-                            //mFriends.postValue(mFriendList);
+                            mFriends.postValue(mFriendList);
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
