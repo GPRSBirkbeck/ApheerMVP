@@ -312,7 +312,8 @@ public class FirebaseClient {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String sender = document.getString("sender");
                                 String text = document.getString("text");
-                                Conversation conversation = new Conversation(sender,R.drawable.macron_image, text);
+                                String senderDisplayName = document.getString("senderDisplayName");
+                                Conversation conversation = new Conversation(senderDisplayName, sender, text);
                                 conversationArrayList.add(conversation);
                             }
                             mMessages.postValue(conversationArrayList);
@@ -326,7 +327,7 @@ public class FirebaseClient {
 
     }
 
-    public void addMessageToConversation(String message, String documentRefence) {
+    public void addMessageToConversation(String message, String documentRefence, String userName) {
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         final String uid = currentUser.getUid();
         Map<String, Object> docData = new HashMap<>();
@@ -338,6 +339,7 @@ public class FirebaseClient {
 
 
         Map<String, Object> messageData = new HashMap<>();
+        messageData.put("senderDisplayName", userName);
         messageData.put("sender", uid);
         messageData.put("timeSent", new Timestamp(new Date()));
         messageData.put("text", message);

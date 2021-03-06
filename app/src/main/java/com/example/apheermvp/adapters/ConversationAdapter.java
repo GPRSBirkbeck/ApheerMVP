@@ -48,7 +48,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         //TODO change this to relate to the user's own picture
         StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
         //TODO sort this line out
-        StorageReference profilePictures = mStorageReference.child("profilepictures/" + mConversation.get(position).getFriendName());
+        StorageReference profilePictures = mStorageReference.child("profilepictures/" + mConversation.get(position).getFriendId());
         //StorageReference profilePictures = mStorageReference.child("profilepictures/" + "E3p1CxfwcXgousx44tfjSnmekP92");
 
         if (mConversation.get(position).getFriendName().equals(uid)) {

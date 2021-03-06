@@ -50,7 +50,7 @@ public class ConversationActivity extends AppCompatActivity implements OnPicture
         mAuth = FirebaseAuth.getInstance();
 
         final String mFriendName = intent.getStringExtra(TribeChatFragment.EXTRA_MESSAGE);
-        FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
+        final FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         final String uid = currentUser.getUid();
         mFriend_name_text_view = findViewById(R.id.textView_friend_name);
         mFriend_name_text_view.setText("Your conversation with "  + mFriendName);
@@ -68,7 +68,7 @@ public class ConversationActivity extends AppCompatActivity implements OnPicture
             public void onClick(View v) {
                 String documentReference = "chat1";
                 String message = text_input_editText.getText().toString();
-                addMessageToConversation(message, documentReference);
+                addMessageToConversation(message, documentReference, currentUser.getDisplayName());
                 clearTextBox();
                 subscribeObservers();
 
@@ -82,9 +82,9 @@ public class ConversationActivity extends AppCompatActivity implements OnPicture
         text_input_editText.setText("");
     }
 
-    private void addMessageToConversation(String message, String documentRefence) {
+    private void addMessageToConversation(String message, String documentRefence, String currentUser) {
         //TODO add functionality
-        mConversationViewModel.addMessageToConversation(message, documentRefence);
+        mConversationViewModel.addMessageToConversation(message, documentRefence, currentUser);
     }
 
     private void subscribeObservers() {

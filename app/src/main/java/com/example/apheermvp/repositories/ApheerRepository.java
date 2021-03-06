@@ -54,7 +54,7 @@ public class ApheerRepository {
         return mFireBaseClient.getMessages();
     }
 
-    public void addMessageToConversation(String message, String documentRefence) {
-        mFireBaseClient.addMessageToConversation(message, documentRefence);
+    public void addMessageToConversation(String message, String documentRefence, String userName) {
+        mFireBaseClient.addMessageToConversation(message, documentRefence, userName);
     }
 }

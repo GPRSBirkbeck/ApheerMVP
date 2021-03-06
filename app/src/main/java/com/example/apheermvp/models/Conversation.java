@@ -4,13 +4,13 @@ public class Conversation {
     private String friendName;
     private Integer friendImage;
     private String messageContent;
+    private String friendId;
 
 
-    public Conversation(String friendName, Integer friendImage, String messageContent) {
+    public Conversation(String friendName, String friendId, String messageContent) {
         this.friendName = friendName;
-        this.friendImage = friendImage;
+        this.friendId = friendId;
         this.messageContent = messageContent;
-        //this.friendId = friendId;
     }
 
     public String getFriendName() {
@@ -37,4 +37,11 @@ public class Conversation {
         this.messageContent = messageContent;
     }
 
+    public String getFriendId() {
+        return friendId;
+    }
+
+    public void setFriendId(String friendId) {
+        this.friendId = friendId;
+    }
 }

@@ -20,7 +20,7 @@ public class ConversationViewModel extends ViewModel {
             return mApheerRepository.getMessages();
         }
 
-        public void addMessageToConversation(String message, String documentRefence) {
-            mApheerRepository.addMessageToConversation(message, documentRefence);
+        public void addMessageToConversation(String message, String documentRefence, String userName) {
+            mApheerRepository.addMessageToConversation(message, documentRefence, userName);
         }
 }
