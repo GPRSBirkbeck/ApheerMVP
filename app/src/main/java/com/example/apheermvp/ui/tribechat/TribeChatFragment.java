@@ -61,6 +61,7 @@ public class TribeChatFragment extends Fragment implements OnPictureListener {
             @Override
             public void onClick(View v) {
                 String email = friendEmailEditText.getText().toString();
+                if(email.contains(" "))
 
                 if(!email.equals("")){
                     sendInviteEmail();

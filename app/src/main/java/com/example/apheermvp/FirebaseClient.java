@@ -35,6 +35,7 @@ public class FirebaseClient {
     private static final String TAG = "FireBaseClient";
     private static FirebaseClient instance;
     private MutableLiveData<List<Friend>> mFriends;
+    private MutableLiveData<List<Friend>> mAllUsers;
     private MutableLiveData<List<Conversation>> mMessages;
     private MutableLiveData<List<FormerLocation>> mFormerLocations;
     //firebase elements
@@ -52,13 +53,14 @@ public class FirebaseClient {
         mFriends = new MutableLiveData<>();
         mFormerLocations = new MutableLiveData<>();
         mMessages = new MutableLiveData<>();
+        mAllUsers = new MutableLiveData<>();
         db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         final String uid = currentUser.getUid();
 
     }
-    public LiveData<List<Friend>> getFriends(){
-
+    public LiveData<List<Friend>> getAllUsers(){
+        //final ArrayList<Friend> mFriendList = new ArrayList<>();
         db.collection("Locations")
                 .whereGreaterThan("number_of_locations_counter",-1)
                 .get()
@@ -66,7 +68,7 @@ public class FirebaseClient {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                             ArrayList<Friend> mFriendList = new ArrayList<>();
+                            ArrayList<Friend> mFriendList = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String friendName = document.getString("userName");
                                 String friendLocation = document.getString("current_location");
@@ -81,8 +83,177 @@ public class FirebaseClient {
                         }
                     }
                 });
+        //mAllUsers.postValue(mFriendList);
+        return mFriends;
+    }
+    public LiveData<List<Friend>> getFriends() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        final String uid = currentUser.getUid();
+/*
+
+        db.collection("Locations")
+                .whereGreaterThan("number_of_locations_counter",-1)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<Friend> mFriendList = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String friendName = document.getString("userName");
+                                String friendLocation = document.getString("current_location");
+                                String userId = document.getString("userId1");
+                                Integer friendImage = R.drawable.macron_image;
+                                Friend friend = new Friend(friendName,friendLocation,friendImage, userId);
+                                mFriendList.add(friend);
+                            }
+                            mFriends.postValue(mFriendList);
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+*/
+/*
+        db.collection("Relationships")
+                .whereEqualTo("friend1", uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            final ArrayList<Friend> mFriendList1 = new ArrayList<>();
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                //attempting an inner join
+                                String otherUserId = document.getString("friend2");
+
+                                db.collection("Locations")
+                                        .whereEqualTo("userId1", otherUserId)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    ArrayList<Friend> mFriendList2 = new ArrayList<>();
+
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        String friendName = document.getString("userName");
+                                                        String friendLocation = document.getString("current_location");
+                                                        String userId = document.getString("userId1");
+                                                        Integer friendImage = R.drawable.macron_image;
+                                                        Friend friend = new Friend(friendName, friendLocation, friendImage, userId);
+                                                        mFriendList2.add(friend);
+                                                    }
+                                                    for (Friend friend: mFriendList2){
+                                                        mFriendList1.add(friend);
+                                                    }
+                                                } else {
+                                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                                }
+                                            }
+                                        });
+                            }
+                            mFriends.postValue(mFriendList1);
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });*/
 
 
+/*        db.collection("Relationships")
+                .whereEqualTo("friend2", uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            final ArrayList<Friend> mFriendList3 = new ArrayList<>();
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                //attempting an inner join
+                                String otherUserId = document.getString("friend1");
+
+                                db.collection("Locations")
+                                        .whereEqualTo("userId1", otherUserId)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+
+                                                    ArrayList<Friend> mFriendList4 = new ArrayList<>();
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        String friendName = document.getString("userName");
+                                                        String friendLocation = document.getString("current_location");
+                                                        String userId = document.getString("userId1");
+                                                        Integer friendImage = R.drawable.macron_image;
+                                                        Friend friend = new Friend(friendName, friendLocation, friendImage, userId);
+                                                        mFriendList4.add(friend);
+                                                    }
+                                                    for (Friend friend: mFriendList4){
+                                                        mFriendList3.add(friend);
+                                                    }
+                                                }
+
+                                                else {
+                                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                                }
+                                            }
+                                        });
+                            }
+                            mFriends.postValue(mFriendList3);
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });*/
+
+        db.collection("Relationships")
+                .whereEqualTo("friend2", uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<Friend> mFriendList = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String otherUserId = document.getString("friend1");
+                                String friendName = document.getString("friend1_name");
+                                String friend1_location = document.getString("friend1_location");
+                                Integer friendImage = R.drawable.macron_image;
+                                Friend friend = new Friend(friendName,friend1_location, friendImage, otherUserId);
+                                mFriendList.add(friend);
+                            }
+                            //mFriends.postValue(mFriendList);
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+/*        db.collection("Relationships")
+                .whereEqualTo("friend1", uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<Friend> mFriendList = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String otherUserId = document.getString("friend2");
+                                String friendName = document.getString("friend2_name");
+                                String friend1_location = document.getString("friend2_location");
+                                Integer friendImage = R.drawable.macron_image;
+                                Friend friend = new Friend(friendName,friend1_location, friendImage, otherUserId);
+                                mFriendList.add(friend);
+                            }
+                            mFriends.postValue(mFriendList);
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });*/
         return mFriends;
     }
     public LiveData<List<FormerLocation>> getFormerLocation(){
@@ -132,13 +303,6 @@ public class FirebaseClient {
 
     public LiveData<List<Conversation>> getMessages() {
         //TODO fix this to load from DB once data is added
-/*        ArrayList<Conversation> conversationArrayList = new ArrayList<>();
-        conversationArrayList.add(new Conversation("Macron", R.drawable.macron_image, "Bonjour monsieur"));
-        conversationArrayList.add(new Conversation("Pierre", R.drawable.macron_image, "Bonjour, Mr. President"));
-        conversationArrayList.add(new Conversation("Mark", R.drawable.macron_image, "Ou est votre bateau?"));
-        conversationArrayList.add(new Conversation("Gregory", R.drawable.macron_image, "En Espagne, Monsieur"));
-        mMessages.postValue(conversationArrayList);
-        return  mMessages;*/
 
         db.collection("Conversations").document("chat1").collection("messages")
                 .get()
@@ -150,9 +314,6 @@ public class FirebaseClient {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String sender = document.getString("sender");
                                 String text = document.getString("text");
-/*                                String dates_in_former_city = "From "  + Math.round(document.getDouble("startDate")) + "to " + Math.round(document.getDouble("endDate"));
-                                String locationId = document.getString("locationId");
-                                Integer friendImage = R.drawable.london_photo;*/
                                 Conversation conversation = new Conversation(sender,R.drawable.macron_image, text);
                                 conversationArrayList.add(conversation);
                             }

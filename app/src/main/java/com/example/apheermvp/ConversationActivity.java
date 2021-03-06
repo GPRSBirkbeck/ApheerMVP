@@ -68,6 +68,7 @@ public class ConversationActivity extends AppCompatActivity implements OnPicture
                 String message = text_input_editText.getText().toString();
                 addMessageToConversation(message, documentReference);
                 clearTextBox();
+                subscribeObservers();
 
 
             }
