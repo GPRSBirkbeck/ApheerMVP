@@ -12,7 +12,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ConversationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     TextView message_owner_name, message_text;
-    CircleImageView message_owner_image;
+    CircleImageView message_owner_image, other_message_owner_image;
     //TODO uncomment the below if you want an onclick event
     OnPictureListener onPictureListener;
 
@@ -28,6 +28,7 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder implements V
         message_owner_name = itemView.findViewById(R.id.message_owner_name);
         message_text = itemView.findViewById(R.id.message_text);
         message_owner_image = itemView.findViewById(R.id.message_owner_image);
+        other_message_owner_image = itemView.findViewById(R.id.other_message_owner_image);
 
         //TODO uncomment if you want an onClick
         itemView.setOnClickListener(this);
