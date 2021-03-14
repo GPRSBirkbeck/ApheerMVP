@@ -26,6 +26,8 @@ import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -313,9 +315,11 @@ public class FirebaseClient {
                                 String sender = document.getString("sender");
                                 String text = document.getString("text");
                                 String senderDisplayName = document.getString("senderDisplayName");
-                                Conversation conversation = new Conversation(senderDisplayName, sender, text);
+                                Timestamp timeSent = document.getTimestamp("timeSent");
+                                Conversation conversation = new Conversation(senderDisplayName, sender, text, timeSent);
                                 conversationArrayList.add(conversation);
                             }
+                            sortMessagesByTimeStamp(conversationArrayList);
                             mMessages.postValue(conversationArrayList);
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -346,5 +350,17 @@ public class FirebaseClient {
         docData.put("message1", messageData);
         db.collection("Conversations").document(documentRefence).collection("messages").add(messageData);
     }
+
+    public ArrayList<Conversation> sortMessagesByTimeStamp(ArrayList<Conversation> conversationArrayList) {
+        Collections.sort(conversationArrayList, messageTimeStampComparator);
+        return conversationArrayList;
+    }
+
+    public static Comparator<Conversation> messageTimeStampComparator = new Comparator<Conversation>() {
+        @Override
+        public int compare(Conversation c1, Conversation c2) {
+                return c1.getTimeSent().compareTo(c2.getTimeSent());
+            }
+        };
 
 }

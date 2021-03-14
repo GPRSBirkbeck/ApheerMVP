@@ -1,16 +1,20 @@
 package com.example.apheermvp.models;
 
+import com.google.firebase.Timestamp;
+
 public class Conversation {
     private String friendName;
     private Integer friendImage;
     private String messageContent;
     private String friendId;
+    private Timestamp timeSent;
 
 
-    public Conversation(String friendName, String friendId, String messageContent) {
+    public Conversation(String friendName, String friendId, String messageContent, Timestamp timeSent) {
         this.friendName = friendName;
         this.friendId = friendId;
         this.messageContent = messageContent;
+        this.timeSent = timeSent;
     }
 
     public String getFriendName() {
@@ -43,5 +47,13 @@ public class Conversation {
 
     public void setFriendId(String friendId) {
         this.friendId = friendId;
+    }
+
+    public Timestamp getTimeSent() {
+        return timeSent;
+    }
+
+    public void setTimeSent(Timestamp timeSent) {
+        this.timeSent = timeSent;
     }
 }
