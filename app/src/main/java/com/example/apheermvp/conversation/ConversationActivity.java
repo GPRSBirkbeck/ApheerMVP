@@ -49,11 +49,12 @@ public class ConversationActivity extends AppCompatActivity implements OnPicture
         Intent intent = getIntent();
         mAuth = FirebaseAuth.getInstance();
 
-        final String mFriendName = intent.getStringExtra(TribeChatFragment.EXTRA_MESSAGE);
+        final int position = intent.getIntExtra(String.valueOf(TribeChatFragment.EXTRA_MESSAGE),0);
+
         final FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         final String uid = currentUser.getUid();
         mFriend_name_text_view = findViewById(R.id.textView_friend_name);
-        mFriend_name_text_view.setText("Your conversation with "  + mFriendName);
+        mFriend_name_text_view.setText("Your conversation with "  + position);
         mConversationRecylcerView = findViewById(R.id.active_conversation_recyclerview);
         text_input_editText = (EditText) findViewById(R.id.chat_input_editText);
         sendMessageButton = (ImageButton) findViewById(R.id.send_message);
@@ -66,9 +67,9 @@ public class ConversationActivity extends AppCompatActivity implements OnPicture
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String documentReference = "chat1";
                 String message = text_input_editText.getText().toString();
-                addMessageToConversation(message, documentReference, currentUser.getDisplayName());
+                int position = TribeChatFragment.EXTRA_MESSAGE;
+                addMessageToConversation(message, position , currentUser.getDisplayName());
                 clearTextBox();
                 subscribeObservers();
 
@@ -82,13 +83,15 @@ public class ConversationActivity extends AppCompatActivity implements OnPicture
         text_input_editText.setText("");
     }
 
-    private void addMessageToConversation(String message, String documentRefence, String currentUser) {
+    private void addMessageToConversation(String message, int documentRefence, String currentUser) {
         //TODO add functionality
-        mConversationViewModel.addMessageToConversation(message, documentRefence, currentUser);
+        int position = TribeChatFragment.EXTRA_MESSAGE;
+
+        mConversationViewModel.addMessageToConversation(message, position, currentUser);
     }
 
     private void subscribeObservers() {
-        mConversationViewModel.getMessages().observe(this, new Observer<List<Conversation>>() {
+        mConversationViewModel.getMessages(TribeChatFragment.EXTRA_MESSAGE).observe(this, new Observer<List<Conversation>>() {
             @Override
             public void onChanged(List<Conversation> conversations) {
                 if(conversations!=null){

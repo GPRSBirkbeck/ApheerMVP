@@ -50,12 +50,12 @@ public class ApheerRepository {
         return clickedFormerLocation;
     }
 
-    public LiveData<List<Conversation>> getMessages() {
-        return mFireBaseClient.getMessages();
+    public LiveData<List<Conversation>> getMessages(int friendid) {
+        return mFireBaseClient.getMessages(friendid);
     }
 
-    public void addMessageToConversation(String message, String documentRefence, String userName) {
-        mFireBaseClient.addMessageToConversation(message, documentRefence, userName);
+    public void addMessageToConversation(String message, int friendid, String userName) {
+        mFireBaseClient.addMessageToConversation(message, friendid, userName);
     }
 
     public void addClickedFriend(int position) {

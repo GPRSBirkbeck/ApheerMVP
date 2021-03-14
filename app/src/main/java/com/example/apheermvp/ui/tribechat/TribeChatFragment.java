@@ -28,7 +28,7 @@ import java.util.List;
 
 public class TribeChatFragment extends Fragment implements OnPictureListener {
 
-    public static final String EXTRA_MESSAGE = "com.example.apheermvp.EXTRA_MESSAGE";
+    public static int EXTRA_MESSAGE;
     private TribeChatViewModel tribeChatViewModel;
     EditText friendEmailEditText;
     Button inviteButton, findFriendButton;
@@ -123,7 +123,9 @@ public class TribeChatFragment extends Fragment implements OnPictureListener {
         mFriend = tribeChatViewModel.getClickedFriend(position);
         Intent intent = new Intent(context, ConversationActivity.class);
         String email = mFriend.getFriendName();
-        intent.putExtra(EXTRA_MESSAGE, email);
+        String friend_id = mFriend.getUserId();
+        EXTRA_MESSAGE = position;
+        intent.putExtra(String.valueOf(EXTRA_MESSAGE), position);
         startActivity(intent);
 
 

@@ -16,11 +16,11 @@ public class ConversationViewModel extends ViewModel {
 
         }
 
-        public LiveData<List<Conversation>> getMessages() {
-            return mApheerRepository.getMessages();
+        public LiveData<List<Conversation>> getMessages(int friendid) {
+            return mApheerRepository.getMessages(friendid);
         }
 
-        public void addMessageToConversation(String message, String documentRefence, String userName) {
-            mApheerRepository.addMessageToConversation(message, documentRefence, userName);
+        public void addMessageToConversation(String message, int friendid, String userName) {
+            mApheerRepository.addMessageToConversation(message, friendid, userName);
         }
 }

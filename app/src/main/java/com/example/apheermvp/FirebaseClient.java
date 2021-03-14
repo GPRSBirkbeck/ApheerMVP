@@ -37,6 +37,7 @@ public class FirebaseClient {
     private static final String TAG = "FireBaseClient";
     private static FirebaseClient instance;
     private MutableLiveData<List<Friend>> mFriends;
+    private ArrayList<Friend> mFirstSetOfFriends;
     private MutableLiveData<List<Friend>> mAllUsers;
     private MutableLiveData<List<Conversation>> mMessages;
     private MutableLiveData<List<FormerLocation>> mFormerLocations;
@@ -56,6 +57,7 @@ public class FirebaseClient {
         mFormerLocations = new MutableLiveData<>();
         mMessages = new MutableLiveData<>();
         mAllUsers = new MutableLiveData<>();
+        mFirstSetOfFriends = new ArrayList<>();
         db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         final String uid = currentUser.getUid();
@@ -108,7 +110,10 @@ public class FirebaseClient {
                                 Friend friend = new Friend(friendName,friend1_location, friendImage, otherUserId);
                                 mFriendList.add(friend);
                             }
-                            mFriends.postValue(mFriendList);
+                            //mFriends.postValue(mFriendList);
+                            for (Friend friend2 : mFriendList){
+                                mFirstSetOfFriends.add(friend2);
+                            }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
@@ -122,7 +127,7 @@ public class FirebaseClient {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             ArrayList<Friend> mFriendList = new ArrayList<>();
-                            mFriendList.addAll(mFriendList);
+                            //mFriendList.addAll(mFriends.);
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String otherUserId = document.getString("friend2");
                                 String friendName = document.getString("friend2_name");
@@ -131,7 +136,11 @@ public class FirebaseClient {
                                 Friend friend = new Friend(friendName,friend1_location, friendImage, otherUserId);
                                 mFriendList.add(friend);
                             }
-                            mFriends.postValue(mFriendList);
+                            for (Friend friend2 : mFriendList){
+                                mFirstSetOfFriends.add(friend2);
+                            }
+                            //mFirstSetOfFriends.addAll(mFriendList);
+                            mFriends.postValue(mFirstSetOfFriends);
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
@@ -184,10 +193,22 @@ public class FirebaseClient {
         return clickedFormerLocation;
     }
 
-    public LiveData<List<Conversation>> getMessages() {
-        //TODO fix this to load from DB once data is added
+    public LiveData<List<Conversation>> getMessages(int position) {
+        FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
+        final String uid = currentUser.getUid();
+        String chatname;
+        Friend clickedFriend = mFriends.getValue().get(position);
+        String friendid = clickedFriend.getUserId();
 
-        db.collection("Conversations").document("chat1").collection("messages")
+
+        if((friendid.compareTo(uid))<0){
+             chatname = "conversation_of"+uid+"AND"+friendid;
+        }
+        else{
+            chatname ="conversation_of"+friendid+"AND"+uid;
+        }
+
+        db.collection("Conversations").document(chatname).collection("messages")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -214,15 +235,24 @@ public class FirebaseClient {
 
     }
 
-    public void addMessageToConversation(String message, String documentRefence, String userName) {
+    public void addMessageToConversation(String message, int position, String userName) {
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         final String uid = currentUser.getUid();
+        String chatname;
+        Friend clickedFriend = mFriends.getValue().get(position);
+        String friendid = clickedFriend.getUserId();
+        if((friendid.compareTo(uid))<0){
+            chatname = "conversation_of"+uid+"AND"+friendid;
+        }
+        else{
+            chatname ="conversation_of"+friendid+"AND"+uid;
+        }
+
         Map<String, Object> docData = new HashMap<>();
-        docData.put("participant1_name", "Gregory");
-        docData.put("participant2_name", "Obama");
+        docData.put("participant1_name", currentUser.getDisplayName());
+        docData.put("participant2_name", clickedFriend.getFriendName());
         docData.put("participant1_id", uid);
-        docData.put("participant2_id", "E3p1CxfwcXgousx44tfjSnmekP92");
-        docData.put("message_counter", 0.00);
+        docData.put("participant2_id", clickedFriend.getUserId());
 
 
         Map<String, Object> messageData = new HashMap<>();
@@ -231,7 +261,7 @@ public class FirebaseClient {
         messageData.put("timeSent", new Timestamp(new Date()));
         messageData.put("text", message);
         docData.put("message1", messageData);
-        db.collection("Conversations").document(documentRefence).collection("messages").add(messageData);
+        db.collection("Conversations").document(chatname).collection("messages").add(messageData);
     }
 
     public ArrayList<Conversation> sortMessagesByTimeStamp(ArrayList<Conversation> conversationArrayList) {
@@ -248,16 +278,34 @@ public class FirebaseClient {
 
     public void addClickedFriend(int position) {
         Friend clickedFriend = mFriends.getValue().get(position);
+        String referenceString;
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         final String uid = currentUser.getUid();
         Map<String, Object> docData = new HashMap<>();
         docData.put("friend1", uid);
-        docData.put("friend1_location", mFormerLocations.getValue().get(0));
+        docData.put("friend1_location", "Italia");
         docData.put("friend1_name", currentUser.getDisplayName());
         docData.put("friend2", clickedFriend.getUserId());
         docData.put("friend2_location", clickedFriend.getFriend_location());
         docData.put("friend2_name", clickedFriend.getFriendName());
-        docData.put("participant2_id", "E3p1CxfwcXgousx44tfjSnmekP92");
-        docData.put("conversationId", "random_value_to_be_added");
+        if((clickedFriend.getUserId().compareTo(uid))<0){
+            referenceString = "conversation_of"+uid+"AND"+clickedFriend.getUserId();
+        }
+        else{
+            referenceString = "conversation_of"+clickedFriend.getUserId()+"AND"+uid;
+        }
+        docData.put("conversationId", referenceString);
+        db.collection("Relationships").document().set(docData);
+
+        Map<String, Object> conversationData = new HashMap<>();
+        conversationData.put("participant1_name", currentUser.getDisplayName());
+        conversationData.put("participant2_name", clickedFriend.getFriendName());
+        conversationData.put("participant1_id", uid);
+        conversationData.put("participant2_id", clickedFriend.getUserId());
+        conversationData.put("message_counter", 0.00);
+
+
+        db.collection("Conversations").document(referenceString).set(conversationData);
+
     }
 }
