@@ -57,4 +57,9 @@ public class ApheerRepository {
     public void addMessageToConversation(String message, String documentRefence, String userName) {
         mFireBaseClient.addMessageToConversation(message, documentRefence, userName);
     }
+
+    public void addClickedFriend(int position) {
+        mFireBaseClient.addClickedFriend(position);
+
+    }
 }

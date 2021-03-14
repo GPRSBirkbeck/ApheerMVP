@@ -9,8 +9,9 @@
     <TextView
         android:padding="8dp"
         android:id="@+id/your_conversations"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:textSize="18sp"
@@ -23,8 +24,20 @@
         app:layout_constraintTop_toBottomOf="@id/your_conversations"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
+    <Button
+        app:layout_constraintBottom_toTopOf="@id/invite_friends_container"
+        android:id="@+id/find_friend_button"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:text="click here to find a user" />
+
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/invite_friends_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -41,7 +54,7 @@
 
         <EditText
             android:id="@+id/edit_text_friend_email"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:hint="friend's email address" />
@@ -53,6 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginBottom="32dp"
             android:text="click here to invite" />
 
     </LinearLayout>

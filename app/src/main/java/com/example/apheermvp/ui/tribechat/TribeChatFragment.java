@@ -21,6 +21,7 @@ import com.example.apheermvp.conversation.ConversationActivity;
 import com.example.apheermvp.R;
 import com.example.apheermvp.adapters.FriendListAdapter;
 import com.example.apheermvp.adapters.OnPictureListener;
+import com.example.apheermvp.allUsers.fullUserList;
 import com.example.apheermvp.models.Friend;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class TribeChatFragment extends Fragment implements OnPictureListener {
     public static final String EXTRA_MESSAGE = "com.example.apheermvp.EXTRA_MESSAGE";
     private TribeChatViewModel tribeChatViewModel;
     EditText friendEmailEditText;
-    Button inviteButton;
+    Button inviteButton, findFriendButton;
     private RecyclerView mFriendChatsRecylcerView;
     private FriendListAdapter mFriendChatListAdapter;
 
@@ -48,9 +49,18 @@ public class TribeChatFragment extends Fragment implements OnPictureListener {
         View root = inflater.inflate(R.layout.fragment_tribe_chat, container, false);
         friendEmailEditText = root.findViewById(R.id.edit_text_friend_email);
         inviteButton = root.findViewById(R.id.invite_button);
+        findFriendButton = root.findViewById(R.id.find_friend_button);
         mFriendChatsRecylcerView = root.findViewById(R.id.your_conversations_recyclerview);
         initRecyclerView(context);
         subscribeObservers();
+
+        findFriendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent intent = new Intent(context, fullUserList.class);
+                    startActivity(intent);
+            }
+        });
 
 
         //invite the person by email
