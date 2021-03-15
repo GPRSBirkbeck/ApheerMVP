@@ -1,5 +1,7 @@
 package com.example.apheermvp.repositories;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 
 import com.example.apheermvp.FirebaseClient;
@@ -58,8 +60,8 @@ public class ApheerRepository {
         mFireBaseClient.addMessageToConversation(message, friendid, userName);
     }
 
-    public void addClickedFriend(int position) {
-        mFireBaseClient.addClickedFriend(position);
+    public void addClickedFriend(Context applicationContext, int position) {
+        mFireBaseClient.addClickedFriend(applicationContext, position);
 
     }
 }

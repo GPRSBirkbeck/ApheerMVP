@@ -58,7 +58,7 @@ public class fullUserList extends AppCompatActivity implements OnPictureListener
 
     @Override
     public void onFriendPictureClick(int position) {
-        mFullUserListViewModel.addClickedFriend(position);
+        mFullUserListViewModel.addClickedFriend(getApplicationContext(), position);
         toastMessage("Congratulations, you've successfully added a friend");
     }
 

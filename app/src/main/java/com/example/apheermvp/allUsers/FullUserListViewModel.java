@@ -1,5 +1,7 @@
 package com.example.apheermvp.allUsers;
 
+import android.content.Context;
+
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -24,8 +26,8 @@ public class FullUserListViewModel extends ViewModel {
 
     }
 
-    public void addClickedFriend(int position) {
-        mApheerRepository.addClickedFriend(position);
+    public void addClickedFriend(Context applicationContext, int position) {
+        mApheerRepository.addClickedFriend(applicationContext, position);
     }
 
 

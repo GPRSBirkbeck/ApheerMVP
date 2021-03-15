@@ -1,12 +1,15 @@
 package com.example.apheermvp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.apheermvp.conversation.ConversationActivity;
 import com.example.apheermvp.models.Conversation;
 import com.example.apheermvp.models.FormerLocation;
 import com.example.apheermvp.models.Friend;
@@ -276,8 +279,19 @@ public class FirebaseClient {
             }
         };
 
-    public void addClickedFriend(int position) {
-        Friend clickedFriend = mFriends.getValue().get(position);
+    public void addClickedFriend(Context context, int position) {
+        Friend clickedFriend = mAllUsers.getValue().get(position);
+
+        //check to see if this person is already a friend
+        for (int i = 0; i < mFriends.getValue().size(); i++) {
+            if(clickedFriend.getUserId().equals(mFriends.getValue().get(i).getUserId())){
+                String username = mFriends.getValue().get(i).getFriendName();
+                Toast.makeText(context, "you are already friends with " + username, Toast.LENGTH_SHORT).show();
+                return;
+
+            }
+        }
+
         String referenceString;
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         final String uid = currentUser.getUid();
