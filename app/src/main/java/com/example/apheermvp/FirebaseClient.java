@@ -321,5 +321,6 @@ public class FirebaseClient {
 
         db.collection("Conversations").document(referenceString).set(conversationData);
 
+        Toast.makeText(context, "Congratulations - you are now friends with " + clickedFriend.getFriendName(), Toast.LENGTH_SHORT).show();
     }
 }
