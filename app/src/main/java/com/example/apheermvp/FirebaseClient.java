@@ -40,7 +40,6 @@ public class FirebaseClient {
     private static final String TAG = "FireBaseClient";
     private static FirebaseClient instance;
     private MutableLiveData<List<Friend>> mFriends;
-    private ArrayList<Friend> mFirstSetOfFriends;
     private MutableLiveData<List<Friend>> mAllUsers;
     private MutableLiveData<List<Conversation>> mMessages;
     private MutableLiveData<List<FormerLocation>> mFormerLocations;
@@ -60,10 +59,10 @@ public class FirebaseClient {
         mFormerLocations = new MutableLiveData<>();
         mMessages = new MutableLiveData<>();
         mAllUsers = new MutableLiveData<>();
-        mFirstSetOfFriends = new ArrayList<>();
         db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = mAuth.getInstance().getCurrentUser();
         final String uid = currentUser.getUid();
+
 
     }
     public LiveData<List<Friend>> getAllUsers(){
@@ -94,6 +93,8 @@ public class FirebaseClient {
         return mAllUsers;
     }
     public LiveData<List<Friend>> getFriends() {
+        final ArrayList<Friend> emptyFriendList = new ArrayList<>();
+        mFriends.setValue(emptyFriendList);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         final String uid = currentUser.getUid();
 
@@ -115,7 +116,7 @@ public class FirebaseClient {
                             }
                             //mFriends.postValue(mFriendList);
                             for (Friend friend2 : mFriendList){
-                                mFirstSetOfFriends.add(friend2);
+                                emptyFriendList.add(friend2);
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -140,10 +141,10 @@ public class FirebaseClient {
                                 mFriendList.add(friend);
                             }
                             for (Friend friend2 : mFriendList){
-                                mFirstSetOfFriends.add(friend2);
+                                emptyFriendList.add(friend2);
                             }
                             //mFirstSetOfFriends.addAll(mFriendList);
-                            mFriends.postValue(mFirstSetOfFriends);
+                            mFriends.postValue(emptyFriendList);
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }

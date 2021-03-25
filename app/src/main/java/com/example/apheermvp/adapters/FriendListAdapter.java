@@ -71,7 +71,8 @@ public class FriendListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return 0;
     }
     public void setFriends(List<Friend> friends){
-        mFriends = friends;
-        notifyDataSetChanged();
+        //have to clear as list was getting added every time a fragment opened - going out of controllll
+            mFriends = friends;
+            notifyDataSetChanged();
     }
 }
