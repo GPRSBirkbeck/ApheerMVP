@@ -12,7 +12,7 @@
         <activity android:name=".allUsers.fullUserList"></activity>
         <activity android:name=".conversation.ConversationActivity" />
         <activity
-            android:name=".LandingActivity"
+            android:name=".landingPage.LandingActivity"
             android:label="@string/title_activity_landing" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -23,17 +23,17 @@
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
         <activity
-            android:name=".SetLocationAndNameActivity"
+            android:name=".setLocation.SetLocationAndNameActivity"
             android:label="@string/title_activity_set_location" />
-        <activity android:name=".RegisterStepOneEmail" />
-        <activity android:name=".Sign_In_Activity">
+        <activity android:name=".registry.RegisterStepOneEmail" />
+        <activity android:name=".signIn.Sign_In_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterStepTwoPassword" />
+        <activity android:name=".registry.RegisterStepTwoPassword" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

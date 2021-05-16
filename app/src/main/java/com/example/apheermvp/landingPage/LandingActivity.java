@@ -1,7 +1,8 @@
-package com.example.apheermvp;
+package com.example.apheermvp.landingPage;
 
 import android.os.Bundle;
 
+import com.example.apheermvp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;

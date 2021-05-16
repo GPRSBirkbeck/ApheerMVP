@@ -1,4 +1,4 @@
-package com.example.apheermvp;
+package com.example.apheermvp.registry;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.apheermvp.R;
+import com.example.apheermvp.setLocation.SetLocationAndNameActivity;
+import com.example.apheermvp.signIn.Sign_In_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

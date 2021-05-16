@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.apheermvp.R;
-import com.example.apheermvp.Sign_In_Activity;
+import com.example.apheermvp.signIn.Sign_In_Activity;
 import com.example.apheermvp.adapters.FriendListAdapter;
 import com.example.apheermvp.adapters.LocationListAdapter;
 import com.example.apheermvp.adapters.OnPictureListener;
